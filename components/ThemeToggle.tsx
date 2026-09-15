@@ -25,7 +25,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-pressed={dark}
-      className="text-dim hover:text-text transition-colors"
+      className="text-dim transition-colors hover:text-text"
     >
       {dark ? 'Light' : 'Dark'}
     </button>

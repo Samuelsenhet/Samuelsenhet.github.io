@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-15T17:35:56.040Z",
+  "fetchedAt": "2026-09-15T17:43:38.529Z",
   "repos": [
     {
       "name": "Samuelsenhet.github.io",
@@ -7,11 +7,11 @@
       "language": "TypeScript",
       "url": "https://github.com/Samuelsenhet/Samuelsenhet.github.io",
       "stars": 0,
-      "updated": "2026-09-15T17:30:40Z"
+      "updated": "2026-09-15T17:36:27Z"
     },
     {
       "name": "DEVELOPER-HANDBOOK",
-      "description": null,
+      "description": "The way I think, build and ship. A living handbook of product principles, technical decisions and lessons from building real software.",
       "language": "HTML",
       "url": "https://github.com/Samuelsenhet/DEVELOPER-HANDBOOK",
       "stars": 0,

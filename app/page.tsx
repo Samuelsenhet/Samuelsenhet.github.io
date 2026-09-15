@@ -7,7 +7,7 @@ import { RepoList } from '@/components/RepoList';
 export default function Home() {
   return (
     <div className="mx-auto max-w-3xl px-5 sm:px-8">
-      <section className="pt-16 pb-14 sm:pt-24">
+      <section className="pt-20 pb-16 sm:pt-32">
         <h1 className="text-display font-bold">
           Hey, I&rsquo;m Samuel. I build{' '}
           <Link href="/work/" className="underline decoration-[0.08em] underline-offset-[0.12em]">
