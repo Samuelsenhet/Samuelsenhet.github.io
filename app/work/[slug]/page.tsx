@@ -83,6 +83,11 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
              the row's right edge lands on the text's own measure. */
           <div className="mt-12 grid max-w-[62ch] grid-flow-col auto-cols-[220px] gap-4 overflow-x-auto pb-2 sm:auto-cols-fr sm:overflow-x-visible sm:pb-0">
             {project.shots.map((shot) => (
+              /* next/image would add a wrapper and a runtime without
+                 optimising anything: this is a static export with
+                 images.unoptimized, and these are already WebP at the size
+                 they render. */
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 key={shot.src}
                 src={shot.src}

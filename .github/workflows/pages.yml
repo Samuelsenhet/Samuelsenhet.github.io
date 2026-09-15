@@ -31,6 +31,8 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run lint
+
       - run: npm run typecheck
 
       # prebuild fetches public repositories. If GitHub is unreachable it keeps

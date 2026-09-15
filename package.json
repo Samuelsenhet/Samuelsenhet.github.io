@@ -2,13 +2,25 @@
   "name": "samuelsenhet.github.io",
   "version": "0.1.0",
   "private": true,
+  "description": "The source of samuelsenhet.github.io, a small static site about what I build and what state each of those things is in.",
+  "license": "MIT",
+  "author": "Samuel Pierre",
+  "homepage": "https://samuelsenhet.github.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samuelsenhet/Samuelsenhet.github.io.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "prebuild": "node scripts/fetch-repos.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "npx serve out",
     "typecheck": "tsc --noEmit",
-    "fetch:repos": "node scripts/fetch-repos.mjs"
+    "fetch:repos": "node scripts/fetch-repos.mjs",
+    "lint": "eslint ."
   },
   "dependencies": {
     "next": "^16.3.5",
@@ -20,7 +32,9 @@
     "@types/node": "^26.5.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.5",
     "tailwindcss": "^4.3.3",
-    "typescript": "^7.0.2"
+    "typescript": "^6.0.3"
   }
 }

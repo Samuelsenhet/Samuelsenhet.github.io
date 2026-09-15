@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Familjen_Grotesk, IBM_Plex_Mono } from 'next/font/google';
 import { profile } from '@/content/profile';
 import { Nav } from '@/components/Nav';
@@ -37,6 +37,13 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f1f4f7' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f1620' },
+  ],
+};
+
 /**
  * Applies the stored theme before first paint so the page never flashes the
  * wrong one. Reads can throw in a locked-down browser, so it fails silently
@@ -49,6 +56,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${familjen.variable} ${plexMono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: profile.name,
+              jobTitle: profile.role,
+              url: profile.siteUrl,
+              sameAs: [profile.github, profile.linkedin].filter(Boolean),
+              address: { '@type': 'PostalAddress', addressCountry: 'SE' },
+            }),
+          }}
+        />
       </head>
       <body className="min-h-dvh flex flex-col">
         <a
