@@ -1,0 +1,96 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-familjen), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Light is the cool paper, not cream. */
+  --color-ground: #f1f4f7;
+  --color-raised: #ffffff;
+  --color-line: #d8e0e8;
+  --color-text: #101922;
+  --color-mid: #4a5a6b;
+  --color-dim: #5a6b7e;
+  /* Colour carries meaning here: jade is shipped, brass is in progress. */
+  --color-jade: #14795a;
+  --color-brass: #855f1c;
+
+  --text-display: 4.25rem;
+  --text-display--line-height: 0.96;
+  --text-display--letter-spacing: -0.035em;
+  --text-title: 2.25rem;
+  --text-title--line-height: 1.12;
+  --text-title--letter-spacing: -0.02em;
+}
+
+.dark {
+  --color-ground: #0f1620;
+  --color-raised: #161f2b;
+  --color-line: #253345;
+  --color-text: #e6ecf3;
+  --color-mid: #95a5b7;
+  --color-dim: #7d8fa3;
+  --color-jade: #57c79b;
+  --color-brass: #c79b5a;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  body {
+    background: var(--color-ground);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-text);
+    color: var(--color-ground);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  /* Tabular figures everywhere numbers line up as data. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* The single orchestrated moment: the ledger settling in, once, on load. */
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.settle {
+  animation: settle 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settle {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
