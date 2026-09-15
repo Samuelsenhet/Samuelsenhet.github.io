@@ -9,7 +9,8 @@ of those things is actually in.
 
 Next.js App Router with `output: 'export'`, so `npm run build` produces a
 folder of static files in `out/` and nothing needs a server at runtime. That
-keeps Vercel, GitHub Pages, Cloudflare Pages, and a plain bucket all viable.
+keeps GitHub Pages, which is what serves it, along with Vercel, Cloudflare
+Pages, or a plain bucket all viable.
 
 **Content lives in `content/`, not in components.** Every project is an entry
 in `content/projects.ts` with a `status` of `shipped` or `building`. Adding a
@@ -45,29 +46,28 @@ npm run fetch:repos # refresh data/repos.json on its own
 
 ## Deploying
 
-**Vercel:** import the repository. The framework is detected, no settings to
-change. Point a domain at it if you have one.
+This is a GitHub Pages **user** page. The repository is named
+`Samuelsenhet.github.io`, which is what makes it one, and a user page is served
+from the root of the domain, so no `basePath` and no `assetPrefix` are needed.
 
-**GitHub Pages, which is what this uses.** The repository is named
-`Samuelsenhet.github.io`, which makes it a *user* page: served from the root of
-the domain, so no `basePath` and no `assetPrefix` are needed. Do not rename the
-repository without changing that, because a *project* page is served from a
-subpath and every stylesheet, font, and link would 404 without a `basePath`.
+Do not rename the repository without changing that. A *project* page is served
+from a subpath, and without a `basePath` every stylesheet, font, and link would
+404.
 
 `.github/workflows/pages.yml` builds and deploys on every push to `main`. It
-runs `npm run typecheck` first, so a type error stops the deploy rather than
-shipping. You can also trigger it by hand from the Actions tab, which is the
-way to refresh the public repository list without making a commit.
+runs `npm run typecheck` before the build, so a type error stops the deploy
+rather than shipping. You can also trigger it by hand from the Actions tab,
+which is how to refresh the public repository list without making a commit.
 
-**Vercel,** if you ever want per-pull-request previews: import the repository,
-accept the detected settings, and set `siteUrl` in `content/profile.ts` to the
-Vercel origin.
+`siteUrl` in `content/profile.ts` has to match the origin that actually serves
+the site. Canonical links and the Open Graph image both resolve against it, and
+a wrong value there fails quietly.
 
-**A custom domain** is served from the root either way, so no `basePath`. Point
-it at Pages, add a `CNAME` file, and change `siteUrl`.
+A custom domain is also served from the root, so no `basePath`: point it at
+Pages, add a `CNAME`, and change `siteUrl`.
 
-Whichever host serves it, `siteUrl` in `content/profile.ts` has to match the
-real origin. Canonical links and the Open Graph image both resolve against it.
+The build is a plain static export, so nothing here is tied to Pages. Another
+host is a matter of pointing it at `out/` and setting `siteUrl`.
 
 ## Licence
 
