@@ -49,12 +49,20 @@ npm run fetch:repos # refresh data/repos.json on its own
 change. Point a domain at it if you have one.
 
 **GitHub Pages:** the build already writes a fully static `out/`. Publish that
-folder with the Pages action of your choice. Because the site is served from
-the domain root, no `basePath` is set; add one in `next.config.mjs` if you
-ever serve it from a subpath.
+folder with the Pages action of your choice. Mind which kind of Pages site it
+is, because it changes the configuration:
 
-After deploying, set `siteUrl` in `content/profile.ts` to the real origin so
-that canonical links and the Open Graph image resolve correctly.
+- A *project* page, `samuelsenhet.github.io/samuel-dev/`, is served from a
+  subpath. Set `basePath: '/samuel-dev'` and `assetPrefix: '/samuel-dev/'` in
+  `next.config.mjs`, or every stylesheet, font, and link will 404.
+- A *user* page, `samuelsenhet.github.io`, requires the repository to be named
+  `Samuelsenhet.github.io` and is served from the root, so no `basePath`.
+- A custom domain is served from the root either way, so no `basePath`.
+
+**Before the first deploy, whichever host you pick:** set `siteUrl` in
+`content/profile.ts` to the real origin. It ships as `https://example.com` on
+purpose, so that an unset value is obvious rather than plausible. Canonical
+links and the Open Graph image both resolve against it.
 
 ## Licence
 

@@ -15,6 +15,12 @@ export const profile = {
    */
   email: null as string | null,
   github: 'https://github.com/Samuelsenhet',
-  /** Replace with the real deployed origin once hosting is chosen. */
-  siteUrl: 'https://samuelsenhet.github.io',
+  /**
+   * The origin this site is served from. Nothing is deployed yet, so this is
+   * deliberately a placeholder rather than a plausible guess: canonical links
+   * and the Open Graph image resolve against it, and a wrong-but-believable
+   * host is the kind of mistake that never gets noticed. Set it before the
+   * first deploy.
+   */
+  siteUrl: 'https://example.com',
 } as const;
