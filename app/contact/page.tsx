@@ -6,11 +6,21 @@ export const metadata: Metadata = {
   description: `Reach Samuel by email or on GitHub.`,
 };
 
+/** Only channels that actually exist get a row. */
 const ways = [
   ...(profile.email
     ? [{ label: 'Email', value: profile.email, href: `mailto:${profile.email}` }]
     : []),
   { label: 'GitHub', value: `github.com/${profile.handle}`, href: profile.github },
+  ...(profile.linkedin
+    ? [
+        {
+          label: 'LinkedIn',
+          value: profile.linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''),
+          href: profile.linkedin,
+        },
+      ]
+    : []),
 ];
 
 export default function Contact() {
@@ -34,7 +44,7 @@ export default function Contact() {
                 <a
                   href={w.href}
                   className="underline underline-offset-4 decoration-line hover:decoration-current"
-                  {...(w.label === 'GitHub' ? { target: '_blank', rel: 'noreferrer' } : {})}
+                  {...(w.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
                 >
                   {w.value}
                 </a>
