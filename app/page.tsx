@@ -26,7 +26,8 @@ export default function Home() {
           I am a builder in {profile.location} who takes a product the whole way: the interface, the
           database, the release, the store listing, and the words. Right now that means an app about
           knowing yourself, a voice that cannot misquote scripture, and a marketplace that runs
-          backwards.
+          backwards. The oldest thing on this list is not software at all, but a room where men sit
+          down and talk.
         </p>
         <p className="mt-4">
           <Link href="/work/" className="underline underline-offset-4 decoration-line hover:decoration-current">

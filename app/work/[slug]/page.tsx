@@ -29,7 +29,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   const project = projectBySlug(slug);
   if (!project) notFound();
 
-  const tone = project.status === 'shipped' ? 'text-jade' : 'text-brass';
+  const tone = project.status === 'building' ? 'text-brass' : 'text-jade';
 
   return (
     <div className="mx-auto max-w-3xl px-5 sm:px-8">

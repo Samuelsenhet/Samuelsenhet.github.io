@@ -7,7 +7,7 @@ export const profile = {
   role: 'Software builder',
   /** The one sentence the whole site rests on. */
   statement:
-    'I build software products end to end, mostly alone. One of them is in the App Store.',
+    'I build software products end to end, mostly alone, and I run a circle where men talk. One of the products is in the App Store.',
   /** Published on the contact page. Set to null to take it off again. */
   email: 'samueel.pierre@hotmail.com' as string | null,
   github: 'https://github.com/Samuelsenhet',

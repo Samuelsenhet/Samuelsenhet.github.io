@@ -35,6 +35,11 @@ export default function About() {
             Supabase. I care much more about what a product does to someone than about which
             framework it was built with.
           </p>
+          <p>
+            Not all of it is software. For three years I have run Prata Öppet, a circle where men
+            talk to each other about what is actually going on. It is the oldest thing I do and the
+            one that most directly answers the question above, which is probably not a coincidence.
+          </p>
           <p className="text-mid">
             Most of what I build is closed source today. That is a decision about timing, not a
             position on open source, and this website is public precisely because it should be.

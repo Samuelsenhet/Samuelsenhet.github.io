@@ -3,8 +3,10 @@ import type { Project } from '@/content/projects';
 
 /**
  * The state of the work, as a ledger. This is the page's one loud element:
- * colour here is data, not decoration. Jade means shipped, brass means in
- * progress, and nothing else on the site uses either colour.
+ * colour here is data, not decoration. It answers one question, which is
+ * whether a person can experience the thing today. Jade means yes, whether
+ * that is shipped software or a circle that has been meeting for years.
+ * Brass means not yet. Nothing else on the site uses either colour.
  */
 export function Ledger({ projects }: { projects: Project[] }) {
   return (
@@ -21,7 +23,7 @@ export function Ledger({ projects }: { projects: Project[] }) {
             <span className="tnum font-mono text-sm text-dim sm:text-right">{p.marker}</span>
             <span
               className={`col-span-2 flex items-baseline gap-2 text-sm sm:col-span-1 ${
-                p.status === 'shipped' ? 'text-jade' : 'text-brass'
+                p.status === 'building' ? 'text-brass' : 'text-jade'
               }`}
             >
               <span

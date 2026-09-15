@@ -14,8 +14,8 @@ export default function Work() {
       <section className="pt-20 pb-12">
         <h1 className="text-title font-medium">Work</h1>
         <p className="mt-4 max-w-[58ch] text-mid">
-          Three products. One is in the App Store, two are still being built. Nothing here is open
-          source yet, and none of it claims to be.
+          Four things. One is in the App Store, one has been meeting for three years, and two are
+          still being built. None of the code is open source yet, and none of it claims to be.
         </p>
       </section>
 
@@ -26,7 +26,9 @@ export default function Work() {
           <article key={p.slug} className="max-w-[62ch]">
             <h2 className="text-xl font-medium tracking-tight">{p.name}</h2>
             <p className="mt-2 text-mid">{p.summary}</p>
-            <p className="mt-3 font-mono text-xs text-dim">{p.stack.join(', ')}</p>
+            {p.stack.length > 0 && (
+              <p className="mt-3 font-mono text-xs text-dim">{p.stack.join(', ')}</p>
+            )}
             <p className="mt-3">
               <Link
                 href={`/work/${p.slug}/`}

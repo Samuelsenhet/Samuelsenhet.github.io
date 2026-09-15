@@ -1,4 +1,4 @@
-export type ProjectStatus = 'shipped' | 'building';
+export type ProjectStatus = 'shipped' | 'running' | 'building';
 
 export type Project = {
   slug: string;
@@ -12,6 +12,8 @@ export type Project = {
   year: string;
   /** Set only when the source is public. Every repo is private today. */
   repo: string | null;
+  /** False for work that is not software, so the page drops the code framing. */
+  isSoftware?: boolean;
   /** Set only when there is something a stranger can actually open. */
   link: { label: string; href: string } | null;
   stack: string[];
@@ -54,6 +56,37 @@ export const projects: Project[] = [
       { term: 'Language', value: 'Swedish, written in Swedish from the start' },
       { term: 'Website', value: 'maakapp.se', href: 'https://maakapp.se' },
       { term: 'Source', value: 'Private' },
+    ],
+  },
+  {
+    slug: 'prata-oppet',
+    name: 'Prata Öppet',
+    summary:
+      'A circle where men sit down together and say what is actually going on.',
+    status: 'running',
+    marker: '',
+    statusLabel: 'Running, three years in',
+    year: '2026',
+    repo: null,
+    isSoftware: false,
+    link: {
+      label: 'Follow on Instagram',
+      href: 'https://www.instagram.com/prataoppet/',
+    },
+    stack: [],
+    body: [
+      'Men are expected to be quiet, strong and self-sufficient. The expectation is not harmless. It keeps men from saying anything until the situation is already an emergency, and it is a large part of why so few of them ask for help in time.',
+      'Prata Öppet is the plainest possible answer to that: a group of men in a room, talking about what is actually going on. Nobody is there to fix anybody. There is no advice and no judgement, only saying it out loud to people who will not flinch.',
+      'I have been running the circle for three years. A session is fifteen to twenty men with someone facilitating, and the conversation has a deliberate shape, so that nobody has to work out how to begin and everyone who wants to speak gets to. It runs both in a room and online. A room does something a screen cannot, and online reaches the men that distance, logistics, or plain nerves would otherwise keep away.',
+      'What comes next is making it bigger than one circle: more cities, training and certifying facilitators so that quality survives the growth, and a podcast of conversations with men and with the people who work in mental health. Three years have shown me that men will talk. They just need somewhere it is safe to.',
+    ],
+    facts: [
+      { term: 'What it is', value: 'Conversation circles for men, in a room and online' },
+      { term: 'Running', value: 'Three years' },
+      { term: 'A session', value: 'Fifteen to twenty men, with a facilitator' },
+      { term: 'Who it is for', value: 'Men 20 to 35 first, then 35 to 55' },
+      { term: 'Inspired by', value: 'Beam, and The Chi' },
+      { term: 'Next', value: 'More cities, facilitator training, a podcast' },
     ],
   },
   {
