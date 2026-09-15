@@ -12,10 +12,15 @@ const links = [
 ];
 
 /**
- * Deliberately quiet: small, dim, and with no rule under it, so the headline
- * below is the first thing read. The current page is the only link at full
- * strength, which is the whole active state. No underline, no pill, nothing
- * that would read as a second heading.
+ * Deliberately quiet: small, dim, no rule under it, and nothing heavier than
+ * anything else, so the headline below is the first thing read.
+ *
+ * The name is never lifted, even on the home page where it is the current
+ * link. It would be the brightest thing in the row sitting directly above a
+ * headline that opens with the same name, and two Samuels is one too many.
+ * aria-current still marks it, so the state is announced without being drawn.
+ * Section links do lift when current: those pages have a smaller title, so
+ * there is nothing for the nav to compete with.
  */
 export function Nav() {
   const pathname = usePathname() ?? '/';
@@ -28,9 +33,7 @@ export function Nav() {
       >
         <Link
           href="/"
-          className={`font-medium transition-colors ${
-            pathname === '/' ? 'text-text' : 'text-dim hover:text-text'
-          }`}
+          className="text-dim transition-colors hover:text-text"
           aria-current={pathname === '/' ? 'page' : undefined}
         >
           {profile.name}
