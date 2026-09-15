@@ -17,8 +17,8 @@ export type Project = {
   stack: string[];
   /** Paragraphs for the project page. */
   body: string[];
-  /** Short, concrete, verifiable. Rendered as a definition list. */
-  facts: { term: string; value: string }[];
+  /** Short, concrete, verifiable. Rendered as a definition list. `href` makes the value a link. */
+  facts: { term: string; value: string; href?: string }[];
 };
 
 export const projects: Project[] = [
@@ -50,7 +50,7 @@ export const projects: Project[] = [
       { term: 'Backend', value: 'Supabase: Postgres, Realtime, Edge Functions' },
       { term: 'Sign-in', value: 'Phone number, SMS one-time code' },
       { term: 'Language', value: 'Swedish, written in Swedish from the start' },
-      { term: 'Website', value: 'maakapp.se' },
+      { term: 'Website', value: 'maakapp.se', href: 'https://maakapp.se' },
       { term: 'Source', value: 'Private' },
     ],
   },

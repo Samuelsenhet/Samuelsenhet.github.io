@@ -71,7 +71,20 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
               className="grid grid-cols-1 gap-x-6 border-b border-line py-3 sm:grid-cols-[9rem_1fr]"
             >
               <dt className="text-sm text-dim">{f.term}</dt>
-              <dd className="text-sm">{f.value}</dd>
+              <dd className="text-sm">
+                {f.href ? (
+                  <a
+                    href={f.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline underline-offset-4 decoration-line hover:decoration-current"
+                  >
+                    {f.value}
+                  </a>
+                ) : (
+                  f.value
+                )}
+              </dd>
             </div>
           ))}
         </dl>
