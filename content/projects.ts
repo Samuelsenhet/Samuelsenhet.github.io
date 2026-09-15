@@ -49,6 +49,8 @@ export const projects: Project[] = [
     ],
     facts: [
       { term: 'What it is', value: 'Self-knowledge, one question at a time' },
+      { term: 'Released', value: 'July 2026, on version 1.0.7 since August' },
+      { term: 'Categories', value: 'Health and Fitness, Education' },
       { term: 'Platform', value: 'iOS, built with Expo and EAS' },
       { term: 'Backend', value: 'Supabase: Postgres, Realtime, Edge Functions' },
       { term: 'Other people', value: 'Reach you through an anonymous echo, never a profile' },
