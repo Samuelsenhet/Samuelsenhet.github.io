@@ -34,7 +34,12 @@ export const metadata: Metadata = {
     images: [{ url: '/og.png', width: 1200, height: 630, alt: `${profile.name}, ${profile.role.toLowerCase()}` }],
   },
   twitter: { card: 'summary_large_image', images: ['/og.png'] },
-  alternates: { canonical: '/' },
+  /**
+   * './' resolves against the route being rendered, so every page is its own
+   * canonical. A literal '/' here is inherited by every child, which tells a
+   * search engine the whole site is a duplicate of the home page.
+   */
+  alternates: { canonical: './' },
 };
 
 export const viewport: Viewport = {
