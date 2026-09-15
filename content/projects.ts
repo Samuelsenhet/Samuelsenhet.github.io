@@ -9,7 +9,6 @@ export type Project = {
   /** Shown in the ledger's value column. A version for shipped work, a dash otherwise. */
   marker: string;
   statusLabel: string;
-  year: string;
   /**
    * The public repository URL, or null while the source is closed. The project
    * page derives its Source row from this, so opening a project really is an
@@ -38,7 +37,6 @@ export const projects: Project[] = [
     status: 'shipped',
     marker: '1.0.7',
     statusLabel: 'Live on the App Store',
-    year: '2026',
     repo: null,
     link: {
       label: 'View on the App Store',
@@ -87,7 +85,6 @@ export const projects: Project[] = [
     status: 'running',
     marker: '',
     statusLabel: 'Running, three years in',
-    year: '2026',
     repo: null,
     isSoftware: false,
     link: {
@@ -118,7 +115,6 @@ export const projects: Project[] = [
     status: 'building',
     marker: '0.1',
     statusLabel: 'In development',
-    year: '2026',
     repo: null,
     link: null,
     stack: ['TypeScript', 'Anthropic API', 'WebSockets', 'Speech to text', 'Text to speech'],
@@ -142,7 +138,6 @@ export const projects: Project[] = [
     status: 'building',
     marker: '',
     statusLabel: 'In development',
-    year: '2026',
     repo: null,
     link: null,
     stack: ['TypeScript', 'React Native', 'Expo Router', 'Supabase'],
