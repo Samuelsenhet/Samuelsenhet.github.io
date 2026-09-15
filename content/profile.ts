@@ -11,11 +11,8 @@ export const profile = {
   /** Published on the contact page. Set to null to take it off again. */
   email: 'samueel.pierre@hotmail.com' as string | null,
   github: 'https://github.com/Samuelsenhet',
-  /**
-   * Paste the full profile URL to publish it on the contact page. Left null
-   * until it is confirmed: a link to the wrong person is worse than no link.
-   */
-  linkedin: null as string | null,
+  /** Set to null to take the row off the contact page again. */
+  linkedin: 'https://www.linkedin.com/in/samuel-pierre-4a61bb333' as string | null,
   /**
    * The origin this site is served from. This is a GitHub Pages user page, so
    * it is served from the root of the domain and needs no basePath. Change it
