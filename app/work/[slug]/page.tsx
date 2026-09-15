@@ -65,9 +65,11 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         </div>
 
         {project.shots && (
-          /* A set, so they stay a row and scroll sideways on a narrow screen
-             rather than stacking into three full-height phones. */
-          <div className="mt-12 flex gap-4 overflow-x-auto pb-2">
+          /* A set, so they stay a row rather than stacking into three
+             full-height phones. Fixed 220px columns that scroll sideways on a
+             narrow screen; equal fractions of the prose column above 640px, so
+             the row's right edge lands on the text's own measure. */
+          <div className="mt-12 grid max-w-[62ch] grid-flow-col auto-cols-[220px] gap-4 overflow-x-auto pb-2 sm:auto-cols-fr sm:overflow-x-visible sm:pb-0">
             {project.shots.map((shot) => (
               <img
                 key={shot.src}
@@ -76,7 +78,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                 width={880}
                 height={1907}
                 loading="lazy"
-                className="w-[220px] shrink-0 rounded-lg border border-line"
+                className="w-full rounded-lg border border-line"
               />
             ))}
           </div>
