@@ -147,11 +147,29 @@ quotation I tested is still caught.
 
 ## The corpus, and the footnotes nobody would have heard coming
 
-31,052 verses, all 66 books, from a machine-readable edition of the 1917
-Swedish translation, which is out of copyright. The file is 5.6 MB, is not
-committed, and is rebuilt by a script that validates every reference against
-the book list and reports coverage per book, so half an import is visible
-immediately rather than discovered in production.
+31,052 verses, all 66 books, from the 1917 Swedish translation, which is out of
+copyright.
+
+The file is 4.5 MB and it is committed, on purpose, because it cannot be
+rebuilt. It was imported before the import script started recording where its
+source came from, and that source file is gone. The provenance record for the
+corpus says so in one word: unknown.
+
+That is an uncomfortable sentence to write in a piece about verified
+provenance. It is also the whole reason the file lives in version control
+rather than in a build step. Lose it and the work is gone, and a fresh import
+would produce a different text.
+
+So I checked it against an independent transcription of the same translation.
+31,052 verses compared. One word differed, and the difference was an HTML
+entity rendered as itself. No textual difference at all.
+
+Then I declined to re-import from that transcription, even though doing so
+would have bought me a known provenance. The diff showed that it merges two
+verses without a space between them in 54 places, where the corpus I have is
+right. Trading 54 correct passages for one tidy fact about where a file came
+from is the wrong trade, and writing down why I refused is worth more than the
+provenance would have been.
 
 If the corpus file is missing, the loader refuses to construct. The server
 would rather not start than run and quietly never find a verse.
@@ -161,16 +179,18 @@ The import caught two things I would not have predicted.
 **The footnote apparatus was pasted inside the verses.** Matthew 6:34 ended
 with a bracketed pointer into the glossary. Read aloud, a footnote would have
 sounded exactly like scripture, which is the precise failure the whole layer
-exists to prevent. 511 verses carried an apparatus; in 222 of them the note
-began after the verse ended and was clipped.
+exists to prevent. Hundreds of verses carried one.
 
 The cleanup turns on a space. `människan[1] av stoft` is a marker inside a
 sentence and the marker alone is removed. `för varandra. [1] Hebr adám` is a
-note starting there, and everything after it goes.
+note starting there, and everything after it goes. The comparison against the
+independent transcription is what proves the cleanup does the right thing,
+since that transcription still has the apparatus in place.
 
-**17 verses contained nothing but a footnote marker.** These are passages
-absent from this edition. They would have been read aloud as "bracket one".
-They are treated as missing now.
+**17 verses contained nothing but a footnote marker.** These are the passages
+this edition leaves out, the ones a reader of any Bible will recognise as
+absent. They would have been read aloud as "bracket one". They are treated as
+missing now, and they are listed by reference rather than counted.
 
 Zero brackets remain in the corpus.
 
@@ -187,18 +207,21 @@ pattern match against a finished sentence. The layer costs nothing from the
 latency budget it exists to protect, which matters because this is a voice: a
 pause is not a spinner, it is a person waiting.
 
-## What I did not verify, and cannot
+## What I have not verified, and cannot
 
-I have verified that the corpus text is complete and correctly structured.
+The corpus agrees with an independent transcription on all 31,052 verses. Two
+transcriptions of the same original agreeing is good evidence that neither was
+typed from memory. It is not evidence that the original was transcribed
+correctly, because both could descend from the same mistake.
 
-I have **not** verified that it is correct, and I cannot. Checking it against my
-own memory of the Bible is the same mistake the entire layer exists to prevent.
-I would be doing by hand precisely what I forbade the model to do.
+Checking that against my own memory of the text is the one thing I must not do.
+It is exactly what I forbade the model to do, by hand, with worse recall.
 
-So that stays an open item with a named owner and a method: compare against a
-printed 1917 in at least ten places, spread across both testaments, with
-particular attention to the 222 verses where a note was clipped, before anyone
-listens.
+So the last check stays open with a named method rather than a shrug: compare
+against a printed 1917 in at least ten places, spread across both testaments,
+before anyone listens. Machine agreement narrows the risk. It does not close
+it, and pretending otherwise would be the same category of error as a confident
+misquotation.
 
 ## Still open
 
