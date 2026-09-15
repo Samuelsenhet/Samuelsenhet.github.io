@@ -1,4 +1,5 @@
 import { profile } from '@/content/profile';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Footer() {
   return (
@@ -17,12 +18,15 @@ export function Footer() {
         </a>
         <a
           href={`${profile.github}/Samuelsenhet.github.io`}
-          className="ml-auto hover:text-text transition-colors"
+          className="hover:text-text transition-colors"
           target="_blank"
           rel="noreferrer"
         >
           Source of this site
         </a>
+        <span className="ml-auto">
+          <ThemeToggle />
+        </span>
       </div>
     </footer>
   );

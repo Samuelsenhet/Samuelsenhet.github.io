@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { profile } from '@/content/profile';
-import { ThemeToggle } from './ThemeToggle';
 
 const links = [
   { href: '/work/', label: 'Work' },
@@ -25,17 +24,18 @@ const links = [
 export function Nav() {
   const pathname = usePathname() ?? '/';
 
+  // The home page carries these links in its body instead, so a nav here
+  // would be the same three links twice and would pull the eye off the
+  // headline. Every other page needs a way to get around.
+  if (pathname === '/') return null;
+
   return (
     <header>
       <nav
         aria-label="Main"
         className="mx-auto flex max-w-3xl flex-wrap items-baseline gap-x-4 gap-y-2 px-5 py-6 text-sm sm:gap-x-5 sm:px-8"
       >
-        <Link
-          href="/"
-          className="text-dim transition-colors hover:text-text"
-          aria-current={pathname === '/' ? 'page' : undefined}
-        >
+        <Link href="/" className="text-dim transition-colors hover:text-text">
           {profile.name}
         </Link>
         <ul className="flex flex-1 flex-wrap items-baseline gap-x-4 gap-y-2 sm:gap-x-5">
@@ -55,7 +55,6 @@ export function Nav() {
             );
           })}
         </ul>
-        <ThemeToggle />
       </nav>
     </header>
   );
