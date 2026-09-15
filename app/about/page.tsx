@@ -24,10 +24,11 @@ export default function About() {
             but it means nothing about a product is a mystery to me.
           </p>
           <p>
-            The work tends toward the same question: what does software owe the person using it. A
-            dating app that matches on personality rather than a photograph. A voice that refuses to
-            paraphrase scripture because being confidently wrong about it would be worse than saying
-            nothing. A marketplace that stops making buyers do the searching.
+            The work tends toward the same question: what does software owe the person using it. An
+            app that puts self-knowledge ahead of a feed, and shows you in plain language everything
+            it knows about you. A voice that refuses to paraphrase scripture, because being
+            confidently wrong about it would be worse than saying nothing. A marketplace that stops
+            making buyers do the searching.
           </p>
           <p>
             My tools are mostly TypeScript, React and React Native, Expo, and Postgres by way of

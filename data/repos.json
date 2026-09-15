@@ -1,6 +1,14 @@
 {
-  "fetchedAt": "2026-09-15T15:40:18.856Z",
+  "fetchedAt": "2026-09-15T15:55:17.979Z",
   "repos": [
+    {
+      "name": "samuel-dev",
+      "description": "Source of my personal website",
+      "language": "TypeScript",
+      "url": "https://github.com/Samuelsenhet/samuel-dev",
+      "stars": 0,
+      "updated": "2026-09-15T15:53:39Z"
+    },
     {
       "name": "DEVELOPER-HANDBOOK",
       "description": null,
