@@ -1,9 +1,11 @@
-# samuel-dev
+# Samuelsenhet.github.io
 
-The source of my personal website, [github.com/Samuelsenhet](https://github.com/Samuelsenhet).
+The source of my personal website, [samuelsenhet.github.io](https://samuelsenhet.github.io).
+The repository is named after the site because that is what makes GitHub Pages
+serve it from the root of the domain; see Deploying.
 
-It is a small static site: who I am, what I have built, and what state each
-of those things is actually in.
+It is a small static site: who I am, what I have built, and what state each of
+those things is actually in.
 
 ## How it works
 
@@ -13,9 +15,15 @@ keeps GitHub Pages, which is what serves it, along with Vercel, Cloudflare
 Pages, or a plain bucket all viable.
 
 **Content lives in `content/`, not in components.** Every project is an entry
-in `content/projects.ts` with a `status` of `shipped` or `building`. Adding a
-project, or changing one from closed to open source, is an edit to that file
-alone.
+in `content/projects.ts` with a `status` of `shipped`, `running`, or
+`building`. The ledger colours those: shipped and running are both jade,
+because both mean a person can experience the thing today, and building is
+brass. Set `isSoftware: false` on an entry that is not software, and it drops
+the code framing.
+
+Opening a project is one field. Put the repository URL in `repo` and the
+project page turns its Source row from `Private` into a link; leave it `null`
+and it stays private. No component changes either way.
 
 **Public repositories are fetched at build time, never in the browser.**
 `scripts/fetch-repos.mjs` runs before every build, asks the GitHub REST API

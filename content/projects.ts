@@ -10,7 +10,11 @@ export type Project = {
   marker: string;
   statusLabel: string;
   year: string;
-  /** Set only when the source is public. Every repo is private today. */
+  /**
+   * The public repository URL, or null while the source is closed. The project
+   * page derives its Source row from this, so opening a project really is an
+   * edit to this one field.
+   */
   repo: string | null;
   /** False for work that is not software, so the page drops the code framing. */
   isSoftware?: boolean;
@@ -73,7 +77,6 @@ export const projects: Project[] = [
       { term: 'Sign-in', value: 'Phone number, SMS one-time code' },
       { term: 'Language', value: 'Swedish, written in Swedish from the start' },
       { term: 'Website', value: 'maakapp.se', href: 'https://maakapp.se' },
-      { term: 'Source', value: 'Private' },
     ],
   },
   {
@@ -129,7 +132,6 @@ export const projects: Project[] = [
       { term: 'The rule', value: 'The model writes a reference, the server inserts the text' },
       { term: 'Memory', value: 'Stored on the device, genuinely deletable' },
       { term: 'Language', value: 'Swedish' },
-      { term: 'Source', value: 'Private' },
     ],
   },
   {
@@ -154,7 +156,6 @@ export const projects: Project[] = [
       { term: 'Trust', value: 'BankID identity check, escrowed payment' },
       { term: 'Platform', value: 'iOS and Android, built with Expo' },
       { term: 'Market', value: 'Sweden' },
-      { term: 'Source', value: 'Private' },
     ],
   },
 ];

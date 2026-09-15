@@ -31,6 +31,18 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
   const tone = project.status === 'building' ? 'text-brass' : 'text-jade';
 
+  // Software says whether its source is open, and says it from one field, so
+  // opening a project is a data edit rather than a copy edit.
+  const facts =
+    project.isSoftware === false
+      ? project.facts
+      : [
+          ...project.facts,
+          project.repo
+            ? { term: 'Source', value: project.repo.replace(/^https?:\/\/(www\.)?/, ''), href: project.repo }
+            : { term: 'Source', value: 'Private' },
+        ];
+
   return (
     <div className="mx-auto max-w-3xl px-5 sm:px-8">
       <article className="pt-20">
@@ -85,7 +97,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         )}
 
         <dl className="mt-12 max-w-[62ch] border-t border-line">
-          {project.facts.map((f) => (
+          {facts.map((f) => (
             <div
               key={f.term}
               className="grid grid-cols-1 gap-x-6 border-b border-line py-3 sm:grid-cols-[9rem_1fr]"
