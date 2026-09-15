@@ -31,6 +31,7 @@ export default function Home() {
         <ul className="space-y-2 text-xl sm:text-2xl">
           {[
             { href: '/work/', label: 'My work' },
+            { href: '/writing/', label: 'My writing' },
             { href: '/about/', label: 'About me' },
             { href: '/contact/', label: 'Contact me' },
           ].map((l) => (
