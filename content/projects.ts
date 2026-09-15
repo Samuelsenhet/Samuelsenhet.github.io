@@ -14,6 +14,8 @@ export type Project = {
   repo: string | null;
   /** False for work that is not software, so the page drops the code framing. */
   isSoftware?: boolean;
+  /** Real screenshots, in the order they tell the story. */
+  shots?: { src: string; alt: string }[];
   /** Set only when there is something a stranger can actually open. */
   link: { label: string; href: string } | null;
   stack: string[];
@@ -39,6 +41,20 @@ export const projects: Project[] = [
       href: 'https://apps.apple.com/se/app/id6789912827',
     },
     stack: ['TypeScript', 'Expo', 'React', 'Supabase', 'PostgreSQL'],
+    shots: [
+      {
+        src: '/maak/start-with-yourself.webp',
+        alt: 'The first screen: a private room with the teacher, which says it asks calm questions and that there are no profiles and no swiping.',
+      },
+      {
+        src: '/maak/rehearse-a-dynamic.webp',
+        alt: 'Rehearsing a dynamic, labelled in the app as an imagined counterpart and not a real person, showing what would spark and what would chafe.',
+      },
+      {
+        src: '/maak/your-data-in-plain-text.webp',
+        alt: 'Everything the app knows about you written in plain language, with buttons to correct it or make it forget.',
+      },
+    ],
     body: [
       'Most apps want you to scroll faster. MÄÄK wants you to understand yourself better, and it does not start with other people. It starts with you.',
       'You open it and meet your teacher: a private room that reflects you back. You answer calm questions about who you are, and it shows you a reading of what it sees, how you make closeness, and where things chafe. There are no right answers. Probes follow, short questions drawn out one at a time, and what they turn up becomes a library of your own that grows at whatever pace you set.',

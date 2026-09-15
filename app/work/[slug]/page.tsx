@@ -64,6 +64,24 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           ))}
         </div>
 
+        {project.shots && (
+          /* A set, so they stay a row and scroll sideways on a narrow screen
+             rather than stacking into three full-height phones. */
+          <div className="mt-12 flex gap-4 overflow-x-auto pb-2">
+            {project.shots.map((shot) => (
+              <img
+                key={shot.src}
+                src={shot.src}
+                alt={shot.alt}
+                width={880}
+                height={1907}
+                loading="lazy"
+                className="w-[220px] shrink-0 rounded-lg border border-line"
+              />
+            ))}
+          </div>
+        )}
+
         <dl className="mt-12 max-w-[62ch] border-t border-line">
           {project.facts.map((f) => (
             <div
