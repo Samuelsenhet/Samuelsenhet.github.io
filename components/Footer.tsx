@@ -16,7 +16,7 @@ export function Footer() {
           github.com/{profile.handle}
         </a>
         <a
-          href={`${profile.github}/samuel-dev`}
+          href={`${profile.github}/Samuelsenhet.github.io`}
           className="ml-auto hover:text-text transition-colors"
           target="_blank"
           rel="noreferrer"

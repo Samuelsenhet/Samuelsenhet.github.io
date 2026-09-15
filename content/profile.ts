@@ -8,19 +8,14 @@ export const profile = {
   /** The one sentence the whole site rests on. */
   statement:
     'I build software products end to end, mostly alone. One of them is in the App Store.',
-  /**
-   * Set this to publish an email address on the contact page. It stays off
-   * until you choose it: a public address on a public page gets scraped, and
-   * that is your call to make, not a default.
-   */
-  email: null as string | null,
+  /** Published on the contact page. Set to null to take it off again. */
+  email: 'samueel.pierre@hotmail.com' as string | null,
   github: 'https://github.com/Samuelsenhet',
   /**
-   * The origin this site is served from. Nothing is deployed yet, so this is
-   * deliberately a placeholder rather than a plausible guess: canonical links
-   * and the Open Graph image resolve against it, and a wrong-but-believable
-   * host is the kind of mistake that never gets noticed. Set it before the
-   * first deploy.
+   * The origin this site is served from. This is a GitHub Pages user page, so
+   * it is served from the root of the domain and needs no basePath. Change it
+   * here if a custom domain ever replaces it; canonical links and the Open
+   * Graph image both resolve against this.
    */
-  siteUrl: 'https://example.com',
+  siteUrl: 'https://samuelsenhet.github.io',
 } as const;

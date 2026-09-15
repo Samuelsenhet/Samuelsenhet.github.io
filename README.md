@@ -48,21 +48,26 @@ npm run fetch:repos # refresh data/repos.json on its own
 **Vercel:** import the repository. The framework is detected, no settings to
 change. Point a domain at it if you have one.
 
-**GitHub Pages:** the build already writes a fully static `out/`. Publish that
-folder with the Pages action of your choice. Mind which kind of Pages site it
-is, because it changes the configuration:
+**GitHub Pages, which is what this uses.** The repository is named
+`Samuelsenhet.github.io`, which makes it a *user* page: served from the root of
+the domain, so no `basePath` and no `assetPrefix` are needed. Do not rename the
+repository without changing that, because a *project* page is served from a
+subpath and every stylesheet, font, and link would 404 without a `basePath`.
 
-- A *project* page, `samuelsenhet.github.io/samuel-dev/`, is served from a
-  subpath. Set `basePath: '/samuel-dev'` and `assetPrefix: '/samuel-dev/'` in
-  `next.config.mjs`, or every stylesheet, font, and link will 404.
-- A *user* page, `samuelsenhet.github.io`, requires the repository to be named
-  `Samuelsenhet.github.io` and is served from the root, so no `basePath`.
-- A custom domain is served from the root either way, so no `basePath`.
+`.github/workflows/pages.yml` builds and deploys on every push to `main`. It
+runs `npm run typecheck` first, so a type error stops the deploy rather than
+shipping. You can also trigger it by hand from the Actions tab, which is the
+way to refresh the public repository list without making a commit.
 
-**Before the first deploy, whichever host you pick:** set `siteUrl` in
-`content/profile.ts` to the real origin. It ships as `https://example.com` on
-purpose, so that an unset value is obvious rather than plausible. Canonical
-links and the Open Graph image both resolve against it.
+**Vercel,** if you ever want per-pull-request previews: import the repository,
+accept the detected settings, and set `siteUrl` in `content/profile.ts` to the
+Vercel origin.
+
+**A custom domain** is served from the root either way, so no `basePath`. Point
+it at Pages, add a `CNAME` file, and change `siteUrl`.
+
+Whichever host serves it, `siteUrl` in `content/profile.ts` has to match the
+real origin. Canonical links and the Open Graph image both resolve against it.
 
 ## Licence
 
