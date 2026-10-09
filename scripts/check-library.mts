@@ -3,6 +3,7 @@
  * `npm run check`. Each assert names the behaviour it pins.
  */
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { projects, type Project, type ProjectStatus } from '../content/projects.ts';
 import {
   bookIndexForHash,
@@ -104,6 +105,34 @@ function contrast(a: string, b: string): number {
 }
 for (const b of books) {
   assert.ok(contrast(b.look.ink, b.look.color) >= 4.5, `${b.name}: ink on cloth is ${contrast(b.look.ink, b.look.color).toFixed(2)}:1`);
+}
+
+// The warm room meets the site's contrast floor in both themes. Tokens are
+// read from globals.css, so this checks the values that actually ship.
+const css = readFileSync(new URL('../app/globals.css', import.meta.url), 'utf8');
+function block(selector: string): Record<string, string> {
+  const start = css.indexOf(`${selector} {`);
+  assert.ok(start >= 0, `globals.css has no "${selector} {" block`);
+  const body = css.slice(start, css.indexOf('}', start));
+  return Object.fromEntries([...body.matchAll(/--([\w-]+):\s*(#[0-9a-fA-F]{6})/g)].map((m) => [m[1], m[2]]));
+}
+const site = { light: block('@theme'), dark: block('.dark') };
+const room = { light: block('.library'), dark: block('.dark .library') };
+for (const theme of ['light', 'dark'] as const) {
+  const t = room[theme];
+  const papers = [t['lib-paper-1'], t['lib-paper-2'], t['lib-paper-3']];
+  for (const paper of papers) {
+    for (const ink of ['lib-text', 'lib-dim'] as const) {
+      const c = contrast(t[ink], paper);
+      assert.ok(c >= 4.5, `${theme}: ${ink} ${t[ink]} on ${paper} is ${c.toFixed(2)}:1, needs 4.5`);
+    }
+    for (const dot of ['color-jade', 'color-brass'] as const) {
+      const c = contrast(site[theme][dot], paper);
+      assert.ok(c >= 3, `${theme}: ${dot} dot on ${paper} is ${c.toFixed(2)}:1, needs 3`);
+    }
+  }
+  const card = contrast(t['lib-dim'], t['lib-card']);
+  assert.ok(card >= 4.5, `${theme}: lib-dim on lib-card is ${card.toFixed(2)}:1, needs 4.5`);
 }
 
 console.log('check-library: all passed');
