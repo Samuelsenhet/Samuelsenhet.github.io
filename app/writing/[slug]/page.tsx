@@ -54,7 +54,7 @@ export default async function Post({ params }: { params: Promise<Params> }) {
         <div className="prose mt-12 max-w-[62ch]" dangerouslySetInnerHTML={{ __html: html }} />
 
         <p className="mt-16">
-          <Link href="/writing/" className="text-sm text-mid hover:text-text transition-colors">
+          <Link href="/writing/" className="tap text-sm text-mid hover:text-text transition-colors">
             Back to writing
           </Link>
         </p>

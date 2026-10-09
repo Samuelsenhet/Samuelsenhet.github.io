@@ -68,7 +68,8 @@
   }
 }
 
-/* The single orchestrated moment: the ledger settling in, once, on load. */
+/* The one orchestrated moment: things settle in, once, on load (the books on
+   the home page shelf, the projects on /work). */
 @keyframes settle {
   from {
     opacity: 0;
@@ -94,6 +95,22 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* A 44px tap for a small standalone link or button, centred on it, without
+   moving anything: the hit area is an invisible pseudo-element. Neighbours
+   must sit at least 44px apart, centre to centre. */
+.tap {
+  position: relative;
+}
+.tap::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  translate: -50% -50%;
 }
 
 /* Long-form prose, in the site's own type rather than a plugin's defaults.
@@ -196,4 +213,368 @@
 }
 .prose em {
   color: var(--color-mid);
+}
+
+/* ------------------------------------------------------------------------
+   The bookshelf on the home page. It stands on the page's own paper: every
+   colour is the site's, borrowed by var(), so light and dark follow the
+   theme toggle. Only the ledge and the shadows are the shelf's own. Text
+   tokens are checked against the paper by scripts/check-library.mts.
+   ------------------------------------------------------------------------ */
+.library {
+  --lib-paper-1: var(--color-ground);
+  --lib-paper-2: var(--color-ground);
+  --lib-paper-3: var(--color-ground);
+  --lib-text: var(--color-text);
+  --lib-dim: var(--color-dim);
+  --lib-card: var(--color-raised);
+  --lib-line: var(--color-line);
+  --lib-ledge-1: #ffffff;
+  --lib-ledge-2: #d3dbe4;
+  --lib-ledge-3: #b4c0cd;
+  --lib-ledge-edge: #a9b5c3;
+  --lib-shade: 16 25 34;
+  --lib-noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .28 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  /* Every book dimension is multiplied by this, so the shelves fit a phone. */
+  --u: 1;
+  /* Hover cards are laid out even where they never show; keep them from
+     widening a narrow phone. The open book lives in the top layer, unclipped. */
+  overflow-x: clip;
+  color: var(--lib-text);
+}
+
+.dark .library {
+  --lib-ledge-1: #2a3a4f;
+  --lib-ledge-2: #1d2a3a;
+  --lib-ledge-3: #162231;
+  --lib-ledge-edge: #0b1119;
+  --lib-shade: 0 0 0;
+}
+
+@media (max-width: 420px) {
+  .library {
+    --u: 0.85;
+  }
+}
+
+/* The shelf: a row of books standing on a ledge. */
+.lib-row {
+  display: flex;
+  align-items: flex-end;
+  /* One left edge with the text above: the shelf starts where the words do. */
+  justify-content: flex-start;
+  gap: 3px;
+  min-height: calc(var(--u) * 250px);
+  padding: 18px 0 0;
+}
+.lib-ledge {
+  position: relative;
+  height: 12px;
+  background: linear-gradient(var(--lib-ledge-1), var(--lib-ledge-2) 60%, var(--lib-ledge-3));
+  border-radius: 1px;
+  box-shadow:
+    0 1px 0 var(--lib-ledge-edge),
+    0 14px 22px -10px rgb(var(--lib-shade) / 0.45);
+}
+.lib-ledge::before {
+  content: '';
+  position: absolute;
+  inset: -6px 0 auto;
+  height: 6px;
+  background: radial-gradient(60% 100% at 50% 100%, rgb(var(--lib-shade) / 0.25), transparent);
+}
+
+/* A book: the button never moves, so the pointer never loses it. Only the
+   body inside moves. */
+.lib-book {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.lib-book:hover,
+.lib-book:focus-visible {
+  z-index: 10;
+}
+.lib-book[data-out='true'] .lib-body {
+  visibility: hidden;
+}
+/* Flat books are 30-34px thick (less on a phone). The top book of a pile
+   grows its target upward and the bottom one downward, to exactly 44px,
+   so neighbours never overlap. --h is the book's thickness, set inline. */
+.lib-book[data-pose='flat']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.lib-pile > li:first-child .lib-book[data-pose='flat']::before {
+  top: min(0px, calc(var(--h) * var(--u) * 1px - 44px));
+}
+.lib-pile > li:last-child .lib-book[data-pose='flat']::before {
+  bottom: min(0px, calc(var(--h) * var(--u) * 1px - 44px));
+}
+.lib-body {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  color: var(--book-ink);
+  transform: var(--rest, none);
+  box-shadow: 2px 0 4px rgb(var(--lib-shade) / 0.25), inset 0 1px 0 rgb(255 255 255 / 0.25);
+  transition:
+    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lib-spine,
+.lib-flat {
+  border-radius: 2px 2px 1px 1px;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.34) 0%, rgb(255 255 255 / 0.06) 14%, rgb(255 255 255 / 0.2) 28%, rgb(255 255 255 / 0.04) 48%, rgb(0 0 0 / 0.1) 72%, rgb(0 0 0 / 0.38) 100%),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.045) 0 1px, transparent 1px 3px),
+    var(--lib-noise),
+    var(--book-color);
+}
+.lib-flat {
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.18) 0%, rgb(255 255 255 / 0.04) 40%, rgb(0 0 0 / 0.3) 100%),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.045) 0 1px, transparent 1px 3px),
+    var(--lib-noise),
+    var(--book-color);
+}
+.lib-cover {
+  container-type: size;
+  border-radius: 2px 5px 5px 2px;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.38) 0, rgb(255 255 255 / 0.14) 2.5%, rgb(0 0 0 / 0.08) 6%, transparent 12%),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 3px),
+    var(--lib-noise),
+    var(--book-color);
+  box-shadow: 6px 8px 16px -6px rgb(var(--lib-shade) / 0.5), inset 0 1px 0 rgb(255 255 255 / 0.2);
+}
+/* Sun on the head, dust at the foot. */
+.lib-spine::after,
+.lib-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(255 240 215 / 0.16), transparent 22%, transparent 80%, rgb(0 0 0 / 0.15));
+  pointer-events: none;
+}
+.lib-band {
+  position: absolute;
+  inset-inline: 0;
+  height: 3px;
+  background: var(--book-band);
+  opacity: 0.9;
+}
+.lib-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  max-height: calc(100% - 36px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+}
+.lib-flat .lib-title {
+  writing-mode: horizontal-tb;
+  max-height: none;
+  max-width: calc(100% - 24px);
+}
+.lib-foot {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 9px;
+  text-align: center;
+  font-size: 7.5px;
+  letter-spacing: 0.1em;
+  opacity: 0.75;
+}
+
+/* Lift on hover (only where hover exists) and on keyboard focus. */
+@media (hover: hover) {
+  .lib-book[data-pose='spine']:hover .lib-body {
+    transform: translateY(-12px);
+    box-shadow: 0 16px 24px -8px rgb(var(--lib-shade) / 0.45);
+  }
+  .lib-book[data-pose='cover']:hover .lib-body {
+    transform: translateY(-6px) rotate(0deg);
+  }
+  .lib-book[data-pose='flat']:hover .lib-body {
+    transform: translateX(10px);
+  }
+}
+.lib-book[data-pose='spine']:focus-visible .lib-body {
+  transform: translateY(-12px);
+  box-shadow: 0 16px 24px -8px rgb(var(--lib-shade) / 0.45);
+}
+.lib-book[data-pose='cover']:focus-visible .lib-body {
+  transform: translateY(-6px) rotate(0deg);
+}
+.lib-book[data-pose='flat']:focus-visible .lib-body {
+  transform: translateX(10px);
+}
+.lib-book:focus-visible {
+  outline: 2px solid var(--lib-text);
+  outline-offset: 4px;
+}
+
+/* The card that floats up on hover: a preview of what opening shows. */
+.lib-card {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  width: 200px;
+  padding: 12px 14px;
+  border: 1px solid var(--lib-line);
+  border-radius: 6px;
+  background: var(--lib-card);
+  color: var(--lib-text);
+  text-align: left;
+  box-shadow: 0 18px 40px -12px rgb(var(--lib-shade) / 0.35);
+  opacity: 0;
+  translate: -50% 4px;
+  pointer-events: none;
+  transition:
+    opacity 200ms ease 90ms,
+    translate 200ms ease 90ms;
+}
+@media (hover: hover) {
+  .lib-book:hover .lib-card {
+    opacity: 1;
+    translate: -50% 0;
+    transition-delay: 150ms;
+  }
+}
+.lib-book:focus-visible .lib-card {
+  opacity: 1;
+  translate: -50% 0;
+  transition-delay: 150ms;
+}
+
+.lib-pile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-inline: 8px;
+}
+
+/* Decoration: drawn, not photographed, and hidden from screen readers. */
+.lib-bookend {
+  width: 10px;
+  height: calc(var(--u) * 120px);
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(90deg, #3b352f, #5a5148 50%, #2e2924);
+  box-shadow: 2px 0 4px rgb(0 0 0 / 0.25);
+}
+.lib-plant {
+  position: relative;
+  width: calc(var(--u) * 56px);
+  height: calc(var(--u) * 96px);
+  margin-inline: 10px;
+}
+.lib-plant i {
+  position: absolute;
+  bottom: calc(var(--u) * 30px);
+  width: calc(var(--u) * 14px);
+  height: calc(var(--u) * 34px);
+  border-radius: 50%;
+  background: linear-gradient(#6f8a5e, #4f6b44);
+  transform-origin: bottom center;
+}
+.lib-plant b {
+  position: absolute;
+  bottom: 0;
+  left: calc(var(--u) * 10px);
+  width: calc(var(--u) * 36px);
+  height: calc(var(--u) * 34px);
+  border-radius: 2px 2px 8px 8px;
+  background: linear-gradient(90deg, #b9a58e, #d9c9b4 45%, #a8927a);
+}
+
+/* The open book. */
+.lib-detail {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--lib-text);
+  overflow: hidden;
+}
+.lib-detail::backdrop {
+  background: transparent;
+}
+.lib-scrim {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--lib-paper-2) 74%, transparent);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.lib-detail[data-phase='open'] .lib-scrim {
+  opacity: 1;
+}
+.lib-stage {
+  position: relative;
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 30rem);
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  padding: 2rem;
+  perspective: 1400px;
+  overflow-y: auto;
+  pointer-events: none;
+}
+.lib-stage > * {
+  pointer-events: auto;
+}
+.lib-detail-cover {
+  position: relative;
+  height: min(60dvh, 420px);
+  aspect-ratio: 7 / 10;
+  transform-origin: center;
+}
+.lib-detail-text {
+  opacity: 0;
+  translate: 0 8px;
+  transition:
+    opacity 400ms ease,
+    translate 400ms ease;
+}
+/* 650ms flight + 200ms: the words arrive after the book has landed. */
+.lib-detail[data-phase='open'] .lib-detail-text {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 850ms;
+}
+.lib-detail[data-phase='closing'] .lib-detail-text {
+  transition-duration: 150ms;
+}
+.lib-swap {
+  animation: settle 200ms ease both;
+}
+@media (max-width: 719px) {
+  .lib-stage {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    justify-items: center;
+    gap: 1.5rem;
+    padding: 4.5rem 1.25rem 2rem;
+  }
+  .lib-detail-cover {
+    height: 40dvh;
+  }
 }

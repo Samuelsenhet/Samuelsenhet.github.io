@@ -21,6 +21,15 @@ const ways = [
         },
       ]
     : []),
+  ...(profile.instagram
+    ? [
+        {
+          label: 'Instagram',
+          value: profile.instagram.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''),
+          href: profile.instagram,
+        },
+      ]
+    : []),
 ];
 
 export default function Contact() {
@@ -43,7 +52,7 @@ export default function Contact() {
               <dd>
                 <a
                   href={w.href}
-                  className="underline underline-offset-4 decoration-line hover:decoration-current"
+                  className="tap underline underline-offset-4 decoration-line hover:decoration-current"
                   {...(w.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
                 >
                   {w.value}

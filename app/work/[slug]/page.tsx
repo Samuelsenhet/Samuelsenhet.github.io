@@ -50,7 +50,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           <span aria-hidden className="inline-block size-1.5 translate-y-[-0.15em] rounded-full bg-current" />
           {project.statusLabel}
           {project.status === 'shipped' && (
-            <span className="tnum font-mono text-dim">version {project.marker}</span>
+            <span className="tnum font-mono text-xs text-dim">version {project.marker}</span>
           )}
         </p>
 
@@ -63,18 +63,12 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
               href={project.link.href}
               target="_blank"
               rel="noreferrer"
-              className="underline underline-offset-4 decoration-line hover:decoration-current"
+              className="tap underline underline-offset-4 decoration-line hover:decoration-current"
             >
               {project.link.label}
             </a>
           </p>
         )}
-
-        <div className="mt-12 max-w-[62ch] space-y-5">
-          {project.body.map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
-          ))}
-        </div>
 
         {project.shots && (
           /* A set, so they stay a row rather than stacking into three
@@ -101,6 +95,12 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           </div>
         )}
 
+        <div className="mt-12 max-w-[62ch] space-y-5">
+          {project.body.map((paragraph, i) => (
+            <p key={i}>{paragraph}</p>
+          ))}
+        </div>
+
         <dl className="mt-12 max-w-[62ch] border-t border-line">
           {facts.map((f) => (
             <div
@@ -114,7 +114,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                     href={f.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="underline underline-offset-4 decoration-line hover:decoration-current"
+                    className="tap underline underline-offset-4 decoration-line hover:decoration-current"
                   >
                     {f.value}
                   </a>
@@ -127,7 +127,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         </dl>
 
         <p className="mt-16">
-          <Link href="/work/" className="text-sm text-mid hover:text-text transition-colors">
+          <Link href="/work/" className="tap text-sm text-mid hover:text-text transition-colors">
             Back to all work
           </Link>
         </p>

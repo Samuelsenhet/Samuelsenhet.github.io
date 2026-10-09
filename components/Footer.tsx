@@ -10,7 +10,7 @@ export function Footer() {
         </span>
         <a
           href={profile.github}
-          className="hover:text-text transition-colors"
+          className="tap hover:text-text transition-colors"
           rel="me noreferrer"
           target="_blank"
         >
@@ -18,7 +18,7 @@ export function Footer() {
         </a>
         <a
           href={`${profile.github}/Samuelsenhet.github.io`}
-          className="hover:text-text transition-colors"
+          className="tap hover:text-text transition-colors"
           target="_blank"
           rel="noreferrer"
         >
