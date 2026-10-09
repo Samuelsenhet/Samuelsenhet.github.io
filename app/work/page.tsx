@@ -5,7 +5,8 @@ import { Ledger } from '@/components/Ledger';
 
 export const metadata: Metadata = {
   title: 'Work',
-  description: 'Three products: one in the App Store, two in development.',
+  description:
+    'Six things: one app in the App Store, a circle that has met for three years, and four apps in development.',
 };
 
 export default function Work() {
@@ -14,7 +15,7 @@ export default function Work() {
       <section className="pt-20 pb-12">
         <h1 className="text-title font-medium">Work</h1>
         <p className="mt-4 max-w-[58ch] text-mid">
-          Four things. One is in the App Store, one has been meeting for three years, and two are
+          Six things. One is in the App Store, one has been meeting for three years, and four are
           still being built. None of the code is open source yet, and none of it claims to be.
         </p>
       </section>

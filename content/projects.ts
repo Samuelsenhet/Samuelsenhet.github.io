@@ -153,6 +153,54 @@ export const projects: Project[] = [
       { term: 'Market', value: 'Sweden' },
     ],
   },
+  {
+    slug: 'heytid',
+    name: 'Heytid',
+    summary:
+      'A booking app: you publish times in an iOS app, and the people you invite book them on the web.',
+    status: 'building',
+    marker: '',
+    statusLabel: 'In development',
+    repo: null,
+    link: null,
+    stack: ['TypeScript', 'Expo', 'React', 'Supabase', 'PostgreSQL'],
+    body: [
+      'Heytid is for people who meet others, one to one or in a group, and want them to book a time. You set up your times in the app on your phone, and you send people a personal link.',
+      'The people you invite never need an account or an app. They open the link, confirm with a code sent to their phone, and book. You see who is coming.',
+      'One active meetup at a time is free. More than that is a subscription, bought in the app through the App Store. It is Swedish, and it is sold in Sweden only.',
+    ],
+    facts: [
+      { term: 'What it is', value: 'Booking with a personal link' },
+      { term: 'Platform', value: 'iOS for the host, the web for guests' },
+      { term: 'Guests sign in with', value: 'Phone number, SMS one-time code' },
+      { term: 'Backend', value: 'Supabase, hosted in Ireland' },
+      { term: 'Language', value: 'Swedish' },
+    ],
+  },
+  {
+    slug: 'hand',
+    name: 'HAND',
+    summary:
+      "A personal agent for real paperwork: hand it a letter, an invoice or a contract and say 'take care of this'.",
+    status: 'building',
+    marker: '',
+    statusLabel: 'In development',
+    repo: null,
+    link: null,
+    stack: ['TypeScript', 'Expo', 'React', 'Supabase', 'PostgreSQL'],
+    body: [
+      'HAND is for the administration that piles up: the letter you have not opened, the invoice you need to question, the contract you are not sure about. You give it the document and say: take care of this.',
+      'It reads the document, works out what needs to happen, and prepares it. Nothing leaves the app without your approval: you see exactly what it will send, and it acts only on what you approved.',
+      'Insurance is the first area it handles. It is an iPhone app, written in Swedish.',
+    ],
+    facts: [
+      { term: 'What it is', value: 'An agent for paperwork, with your approval at every step' },
+      { term: 'Platform', value: 'iOS, built with Expo' },
+      { term: 'Backend', value: 'Supabase: Postgres, Edge Functions' },
+      { term: 'First area', value: 'Insurance' },
+      { term: 'Language', value: 'Swedish' },
+    ],
+  },
 ];
 
 export function projectBySlug(slug: string): Project | undefined {
