@@ -21,6 +21,15 @@ const ways = [
         },
       ]
     : []),
+  ...(profile.instagram
+    ? [
+        {
+          label: 'Instagram',
+          value: profile.instagram.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''),
+          href: profile.instagram,
+        },
+      ]
+    : []),
 ];
 
 export default function Contact() {

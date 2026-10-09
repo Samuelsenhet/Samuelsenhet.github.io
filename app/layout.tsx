@@ -70,7 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               name: profile.name,
               jobTitle: profile.role,
               url: profile.siteUrl,
-              sameAs: [profile.github, profile.linkedin].filter(Boolean),
+              sameAs: [profile.github, profile.linkedin, profile.instagram].filter(Boolean),
               address: { '@type': 'PostalAddress', addressCountry: 'SE' },
             }),
           }}

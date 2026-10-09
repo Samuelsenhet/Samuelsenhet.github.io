@@ -13,6 +13,8 @@ export const profile = {
   github: 'https://github.com/Samuelsenhet',
   /** Set to null to take the row off the contact page again. */
   linkedin: 'https://www.linkedin.com/in/samuel-pierre-4a61bb333' as string | null,
+  /** Set to null to take the row off the contact page again. */
+  instagram: 'https://www.instagram.com/samuelsenhet/' as string | null,
   /**
    * The origin this site is served from. This is a GitHub Pages user page, so
    * it is served from the root of the domain and needs no basePath. Change it
