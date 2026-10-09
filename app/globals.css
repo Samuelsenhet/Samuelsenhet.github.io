@@ -96,6 +96,22 @@
   }
 }
 
+/* A 44px tap for a small standalone link or button, centred on it, without
+   moving anything: the hit area is an invisible pseudo-element. Neighbours
+   must sit at least 44px apart, centre to centre. */
+.tap {
+  position: relative;
+}
+.tap::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  translate: -50% -50%;
+}
+
 /* Long-form prose, in the site's own type rather than a plugin's defaults.
    The container caps the measure, so nothing here sets a width. */
 .prose {

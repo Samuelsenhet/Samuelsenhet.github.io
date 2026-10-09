@@ -19,7 +19,7 @@ export function ThemeToggle() {
   }
 
   return (
-    <button type="button" onClick={toggle} className="text-dim transition-colors hover:text-text">
+    <button type="button" onClick={toggle} className="tap text-dim transition-colors hover:text-text">
       <span className="dark:hidden">Dark</span>
       <span className="hidden dark:inline">Light</span>
       <span className="sr-only"> theme</span>

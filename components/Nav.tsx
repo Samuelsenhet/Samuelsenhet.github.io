@@ -36,7 +36,7 @@ export function Nav() {
         aria-label="Main"
         className="mx-auto flex max-w-3xl flex-wrap items-baseline gap-x-4 gap-y-2 px-5 py-6 text-sm sm:gap-x-5 sm:px-8"
       >
-        <Link href="/" className="text-dim transition-colors hover:text-text">
+        <Link href="/" className="tap text-dim transition-colors hover:text-text">
           {profile.name}
         </Link>
         <ul className="flex flex-1 flex-wrap items-baseline gap-x-4 gap-y-2 sm:gap-x-5">
@@ -47,7 +47,7 @@ export function Nav() {
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className={`transition-colors ${active ? 'text-text' : 'text-dim hover:text-text'}`}
+                  className={`tap transition-colors ${active ? 'text-text' : 'text-dim hover:text-text'}`}
                   aria-current={active ? 'page' : undefined}
                 >
                   {l.label}

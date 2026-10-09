@@ -33,7 +33,7 @@ export default function Work() {
             <p className="mt-3">
               <Link
                 href={`/work/${p.slug}/`}
-                className="text-sm underline underline-offset-4 decoration-line hover:decoration-current"
+                className="tap text-sm underline underline-offset-4 decoration-line hover:decoration-current"
               >
                 More about {p.name}
               </Link>

@@ -63,7 +63,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
               href={project.link.href}
               target="_blank"
               rel="noreferrer"
-              className="underline underline-offset-4 decoration-line hover:decoration-current"
+              className="tap underline underline-offset-4 decoration-line hover:decoration-current"
             >
               {project.link.label}
             </a>
@@ -114,7 +114,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                     href={f.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="underline underline-offset-4 decoration-line hover:decoration-current"
+                    className="tap underline underline-offset-4 decoration-line hover:decoration-current"
                   >
                     {f.value}
                   </a>
@@ -127,7 +127,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         </dl>
 
         <p className="mt-16">
-          <Link href="/work/" className="text-sm text-mid hover:text-text transition-colors">
+          <Link href="/work/" className="tap text-sm text-mid hover:text-text transition-colors">
             Back to all work
           </Link>
         </p>

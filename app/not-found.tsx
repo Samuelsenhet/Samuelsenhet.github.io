@@ -9,7 +9,7 @@ export default function NotFound() {
           The link is wrong or the page has moved. The work is all reachable from one place.
         </p>
         <p className="mt-6">
-          <Link href="/work/" className="underline underline-offset-4 decoration-line hover:decoration-current">
+          <Link href="/work/" className="tap underline underline-offset-4 decoration-line hover:decoration-current">
             Go to the work
           </Link>
         </p>

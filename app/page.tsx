@@ -34,7 +34,7 @@ export default function Home() {
           enough to be unmissable, underlined so they cannot be mistaken for
           headings, and no arrows: that is someone else's ornament. */}
       <nav aria-label="Sections" className="pb-16">
-        <ul className="space-y-2 text-xl sm:text-2xl">
+        <ul className="space-y-5 text-xl sm:text-2xl">
           {[
             { href: '/work/', label: 'My work' },
             { href: '/writing/', label: 'My writing' },
@@ -44,7 +44,7 @@ export default function Home() {
             <li key={l.href}>
               <Link
                 href={l.href}
-                className="font-medium underline decoration-dim decoration-[0.06em] underline-offset-[0.14em] transition-colors hover:decoration-current"
+                className="tap font-medium underline decoration-dim decoration-[0.06em] underline-offset-[0.14em] transition-colors hover:decoration-current"
               >
                 {l.label}
               </Link>
