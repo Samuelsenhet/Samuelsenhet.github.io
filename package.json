@@ -20,7 +20,8 @@
     "start": "npx serve out",
     "typecheck": "tsc --noEmit",
     "fetch:repos": "node scripts/fetch-repos.mjs",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "check": "node --experimental-strip-types --no-warnings scripts/check-library.mts"
   },
   "dependencies": {
     "marked": "^18.0.13",
