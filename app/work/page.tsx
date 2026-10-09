@@ -28,7 +28,7 @@ export default function Work() {
             <p className={`flex items-baseline gap-2 text-sm ${p.status === 'building' ? 'text-brass' : 'text-jade'}`}>
               <span aria-hidden className="inline-block size-1.5 translate-y-[-0.15em] rounded-full bg-current" />
               {p.statusLabel}
-              {p.marker && <span className="tnum font-mono text-dim">{p.marker}</span>}
+              {p.marker && <span className="tnum font-mono text-xs text-dim">{p.marker}</span>}
             </p>
             <h2 className="mt-2 text-xl font-medium tracking-tight">{p.name}</h2>
             <p className="mt-2 text-mid">{p.summary}</p>

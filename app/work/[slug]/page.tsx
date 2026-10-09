@@ -50,7 +50,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           <span aria-hidden className="inline-block size-1.5 translate-y-[-0.15em] rounded-full bg-current" />
           {project.statusLabel}
           {project.status === 'shipped' && (
-            <span className="tnum font-mono text-dim">version {project.marker}</span>
+            <span className="tnum font-mono text-xs text-dim">version {project.marker}</span>
           )}
         </p>
 
@@ -69,12 +69,6 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             </a>
           </p>
         )}
-
-        <div className="mt-12 max-w-[62ch] space-y-5">
-          {project.body.map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
-          ))}
-        </div>
 
         {project.shots && (
           /* A set, so they stay a row rather than stacking into three
@@ -100,6 +94,12 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             ))}
           </div>
         )}
+
+        <div className="mt-12 max-w-[62ch] space-y-5">
+          {project.body.map((paragraph, i) => (
+            <p key={i}>{paragraph}</p>
+          ))}
+        </div>
 
         <dl className="mt-12 max-w-[62ch] border-t border-line">
           {facts.map((f) => (

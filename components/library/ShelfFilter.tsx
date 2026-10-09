@@ -35,7 +35,7 @@ export function ShelfFilter({ query, onQuery, kind, onKind, shown, total }: Prop
               type="button"
               aria-pressed={kind === k}
               onClick={() => onKind(k)}
-              className={`min-h-11 rounded-full border px-4 font-mono text-xs uppercase tracking-[0.2em] transition-colors ${
+              className={`min-h-11 min-w-11 rounded-full border px-3 font-mono text-xs uppercase tracking-[0.14em] transition-colors sm:px-4 sm:tracking-[0.2em] ${
                 kind === k
                   ? 'border-[var(--lib-text)] bg-[var(--lib-card)] text-[var(--lib-text)]'
                   : 'border-[var(--lib-line)] text-[var(--lib-dim)] hover:text-[var(--lib-text)]'
