@@ -18,10 +18,9 @@ export default function Home() {
         </h1>
         <p className="mt-8 max-w-[62ch] text-mid">
           I am a builder in {profile.location} who takes a product the whole way: the interface, the
-          database, the release, the store listing, and the words. Right now that means an app about
-          knowing yourself, a voice that cannot misquote scripture, and a marketplace that runs
-          backwards. The oldest thing on this list is not software at all, but a room where men sit
-          down and talk.
+          database, the release, the store listing, and the words. What I am working on stands on the
+          shelves below. The oldest thing there is not software at all, but a room where men sit down
+          and talk.
         </p>
       </section>
 
