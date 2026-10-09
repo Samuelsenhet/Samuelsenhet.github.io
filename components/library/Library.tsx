@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
-import { groupRuns, visibleShelves, volumes, type Decor, type Shelf } from '@/content/library';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { bookIndexForHash, groupRuns, step, visibleShelves, volumes, type Decor, type Shelf } from '@/content/library';
 import { Book } from './Book';
+import { BookDetail } from './BookDetail';
 import { Bookend, Plant } from './Decor';
 
 function DecorItem({ kind }: { kind: Decor }) {
@@ -13,6 +14,28 @@ export function Library({ shelves }: { shelves: Shelf[] }) {
   const shown = useMemo(() => visibleShelves(shelves), [shelves]);
   const total = shown.reduce((n, s) => n + s.books.length, 0);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const [open, setOpen] = useState<number | null>(null);
+  const books = useMemo(() => shown.flatMap((s) => s.books), [shown]);
+
+  // A link to /library/#maak opens MÄÄK. Deferred a frame: no setState in the effect body.
+  useEffect(() => {
+    const i = bookIndexForHash(window.location.hash, books);
+    if (i < 0) return;
+    const id = requestAnimationFrame(() => setOpen(i));
+    return () => cancelAnimationFrame(id);
+  }, [books]);
+
+  function show(i: number) {
+    setOpen(i);
+    window.history.replaceState(null, '', `#${books[i].slug}`);
+  }
+
+  function closed() {
+    const i = open;
+    setOpen(null);
+    window.history.replaceState(null, '', window.location.pathname);
+    if (i !== null) buttons.current[i]?.focus();
+  }
 
   return (
     <div className="library lib-grain pb-20">
@@ -48,8 +71,8 @@ export function Library({ shelves }: { shelves: Shelf[] }) {
                         <li key={b.slug} className="settle" style={{ animationDelay: `${120 + b.index * 90}ms` }}>
                           <Book
                             book={b}
-                            out={false}
-                            onOpen={() => {}}
+                            out={open === b.index}
+                            onOpen={() => show(b.index)}
                             buttonRef={(el) => {
                               buttons.current[b.index] = el;
                             }}
@@ -62,8 +85,8 @@ export function Library({ shelves }: { shelves: Shelf[] }) {
                   <li key={item.slug} className="settle" style={{ animationDelay: `${120 + item.index * 90}ms` }}>
                     <Book
                       book={item}
-                      out={false}
-                      onOpen={() => {}}
+                      out={open === item.index}
+                      onOpen={() => show(item.index)}
                       buttonRef={(el) => {
                         buttons.current[item.index] = el;
                       }}
@@ -77,6 +100,15 @@ export function Library({ shelves }: { shelves: Shelf[] }) {
           </section>
         ))}
       </div>
+      {open !== null && (
+        <BookDetail
+          books={books}
+          index={open}
+          sourceRect={() => buttons.current[open]?.getBoundingClientRect() ?? null}
+          onStep={(d) => show(step(open, d, books.length))}
+          onClosed={closed}
+        />
+      )}
     </div>
   );
 }
