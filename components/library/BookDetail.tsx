@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import type { ShelfBook } from '@/content/library';
 import { Cover } from './Cover';
 
@@ -41,6 +41,7 @@ function flightFrom(book: ShelfBook, from: DOMRect, to: DOMRect): string {
 export function BookDetail({ books, index, sourceRect, onStep, onClosed }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const cover = useRef<HTMLDivElement>(null);
+  const putBack = useRef<HTMLButtonElement>(null);
   const [phase, setPhase] = useState<'opening' | 'open' | 'closing'>('opening');
   const book = books[index];
 
@@ -50,6 +51,8 @@ export function BookDetail({ books, index, sourceRect, onStep, onClosed }: Props
     const c = cover.current;
     if (!d || !c) return;
     if (!d.open) d.showModal(); // StrictMode runs this effect twice in dev
+    // showModal focuses the first link in the still-invisible text; start on the button instead.
+    putBack.current?.focus();
     const from = sourceRect();
     if (from && !reducedMotion()) {
       c.style.transition = 'none';
@@ -62,6 +65,13 @@ export function BookDetail({ books, index, sourceRect, onStep, onClosed }: Props
     return () => cancelAnimationFrame(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- runs once; later books arrive by onStep without a flight
   }, []);
+
+  // Stepping remounts the text, and a focused link inside it takes focus
+  // with it. Bring focus back so ← and → keep working.
+  useEffect(() => {
+    const d = dialog.current;
+    if (d?.open && !d.contains(document.activeElement)) putBack.current?.focus();
+  }, [index]);
 
   function close() {
     if (phase === 'closing') return;
@@ -150,9 +160,9 @@ export function BookDetail({ books, index, sourceRect, onStep, onClosed }: Props
               Next
             </button>
             <button
+              ref={putBack}
               type="button"
               onClick={close}
-              autoFocus
               className="ml-auto min-h-11 min-w-11 rounded border border-[var(--lib-line)] px-4 text-sm"
             >
               Put it back

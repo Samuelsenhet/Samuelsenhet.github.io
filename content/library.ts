@@ -137,6 +137,17 @@ export function groupRuns(books: ShelfBook[]): (ShelfBook | ShelfBook[])[] {
   return out;
 }
 
+/**
+ * Title size on a cover, in cqw: 21 at most, but small enough that the
+ * longest word fits the 77% of the width the padding leaves. Long single
+ * words ("Bibelrösten") would otherwise run past the edge.
+ * ponytail: 0.5em per glyph is Familjen Grotesk's measured average (0.43) plus margin.
+ */
+export function coverTitleSize(name: string): number {
+  const longest = Math.max(...name.split(/\s+/).map((w) => w.length));
+  return Math.min(21, Math.floor((77 / (longest * 0.5)) * 10) / 10);
+}
+
 export function volumes(n: number): string {
   return `${n} ${n === 1 ? 'volume' : 'volumes'}`;
 }

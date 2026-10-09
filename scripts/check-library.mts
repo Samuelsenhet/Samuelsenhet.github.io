@@ -10,6 +10,7 @@ import {
   bookLabel,
   bookLooks,
   buildShelves,
+  coverTitleSize,
   groupRuns,
   shortStatus,
   step,
@@ -84,7 +85,6 @@ assert.equal(bookLabel(books[0]), 'MÄÄK, Live on the App Store');
 // Review focus 5: every name fits on its book.
 // ponytail: width estimate from average glyph width; measure in a browser if a name is borderline.
 function textFits(name: string, look: BookLook): boolean {
-  if (look.pose === 'cover') return true; // covers wrap the title
   const size = look.face === 'mono' ? 11 : look.caps ? 12 : 15;
   const track = look.face === 'mono' ? 0.14 : look.caps ? 0.12 : 0;
   const length = name.length * size * (0.62 + track);
@@ -92,6 +92,14 @@ function textFits(name: string, look: BookLook): boolean {
   return length <= room;
 }
 for (const b of books) assert.ok(textFits(b.name, b.look), `${b.name} does not fit on its ${b.look.pose}`);
+
+// Every book opens to a cover, so every name must fit one: the longest word
+// on a line, at the cover's title size, inside the 77% the padding leaves.
+// ponytail: 0.5em per glyph is Familjen Grotesk's measured average (0.43) plus margin.
+for (const b of books) {
+  const longest = Math.max(...b.name.split(/\s+/).map((w) => w.length));
+  assert.ok(longest * 0.5 * coverTitleSize(b.name) <= 77, `${b.name} overflows its cover`);
+}
 
 // Lettering on every book is readable: 4.5:1 against its cloth.
 function luminance(hex: string): number {

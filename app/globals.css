@@ -220,6 +220,9 @@
   --lib-noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .28 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   /* Every book dimension is multiplied by this, so the shelves fit a phone. */
   --u: 1;
+  /* Hover cards are laid out even where they never show; keep them from
+     widening a narrow phone. The open book lives in the top layer, unclipped. */
+  overflow-x: clip;
   color: var(--lib-text);
   background: radial-gradient(120% 80% at 50% 0%, var(--lib-paper-1) 0%, var(--lib-paper-2) 55%, var(--lib-paper-3) 100%);
 }
@@ -303,11 +306,19 @@
 .lib-book[data-out='true'] .lib-body {
   visibility: hidden;
 }
-/* Flat books are 30-34px thick; this keeps their target at 44px or more. */
+/* Flat books are 30-34px thick (less on a phone). The top book of a pile
+   grows its target upward and the bottom one downward, to exactly 44px,
+   so neighbours never overlap. --h is the book's thickness, set inline. */
 .lib-book[data-pose='flat']::before {
   content: '';
   position: absolute;
-  inset: -7px 0;
+  inset: 0;
+}
+.lib-pile > li:first-child .lib-book[data-pose='flat']::before {
+  top: min(0px, calc(var(--h) * var(--u) * 1px - 44px));
+}
+.lib-pile > li:last-child .lib-book[data-pose='flat']::before {
+  bottom: min(0px, calc(var(--h) * var(--u) * 1px - 44px));
 }
 .lib-body {
   position: relative;

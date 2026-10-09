@@ -19,6 +19,7 @@ export function Book({ book, out, onOpen, buttonRef }: Props) {
     '--book-ink': look.ink,
     '--book-band': look.band ?? look.ink,
     '--rest': look.pose === 'cover' ? `rotate(${look.tilt ?? 0}deg)` : 'none',
+    '--h': look.height,
   } as CSSProperties;
   const lettering =
     look.face === 'mono'
