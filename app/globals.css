@@ -68,7 +68,8 @@
   }
 }
 
-/* The single orchestrated moment: the ledger settling in, once, on load. */
+/* The one orchestrated moment: things settle in, once, on load (the books on
+   the home page shelf, the projects on /work). */
 @keyframes settle {
   from {
     opacity: 0;
