@@ -222,3 +222,21 @@ rörelse gäller animationer som glider, zoomar och flyger; ett omedelbart lyft 
 Sajtens globala regel gör redan alla övergångar omedelbara för de besökarna, så regeln som låste
 bokens läge är borttagen. Flygturen när en bok öppnas är fortfarande avstängd för dem.
 `npm run check` hindrar att låsningen kommer tillbaka.
+
+## Ändring 2026-10-09: sök och typknappar ovanför hyllorna
+
+Efter Carollias "What are you looking for?", anpassat till sajten.
+
+- **Sökfältet** filtrerar direkt i webbläsaren, utan server och utan AI: namn, sammanfattning,
+  status, teknik, fakta och typ. Skiftläge och accenter spelar ingen roll ("maak" hittar MÄÄK), och
+  varje ord måste finnas med.
+- **Typknapparna** `All · App · AI · Web · People`. Typerna står per bok i `content/library.ts`
+  och är kontrollerade mot repona: AI betyder att projektet anropar en språkmodell (MÄÄK:s
+  edge-funktioner, Bibelrösten, HAND). MÄÄK, Bibelrösten, HAND: App + AI. Crava: App. Heytid: App +
+  Web. Prata Öppet: People.
+- **Böcker som inte matchar försvinner**, raden centreras om och en tom hylla går bort. Ingen träff:
+  "Nothing matches." och en knapp som visar allt igen. Antalet träffar läses upp ("3 of 6").
+- **Öppen bok:** ← och → bläddrar bland det som syns. Den öppna boken hålls med sin slug, så
+  filtrering kan aldrig öppna fel bok.
+- **Utanför:** filtret sparas inte i adressen; ingen AI-sökning.
+- **Typografi:** sökfältet i Familjen Grotesk, knapparna i IBM Plex Mono med versaler.

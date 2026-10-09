@@ -11,7 +11,9 @@ import {
   bookLooks,
   buildShelves,
   coverTitleSize,
+  filterShelves,
   groupRuns,
+  KINDS,
   shortStatus,
   step,
   visibleShelves,
@@ -32,7 +34,7 @@ const fixture = (slug: string, status: ProjectStatus): Project => ({
   body: [],
   facts: [],
 });
-const spine: BookLook = { pose: 'spine', color: '#000000', ink: '#ffffff', face: 'sans', width: 40, height: 200 };
+const spine: BookLook = { pose: 'spine', color: '#000000', ink: '#ffffff', face: 'sans', width: 40, height: 200, kinds: ['app'] };
 const flat: BookLook = { ...spine, pose: 'flat', width: 180, height: 30 };
 
 // The real shelves: status decides the shelf, projects.ts decides the order.
@@ -145,6 +147,28 @@ for (const theme of ['light', 'dark'] as const) {
   const card = contrast(t['lib-dim'], t['lib-card']);
   assert.ok(card >= 4.5, `${theme}: lib-dim on lib-card is ${card.toFixed(2)}:1, needs 4.5`);
 }
+
+// Filtering: the search box and the kind buttons above the shelves.
+const slugs = (shelves: ReturnType<typeof buildShelves>) => shelves.flatMap((sh) => sh.books.map((b) => b.slug));
+assert.deepEqual(slugs(filterShelves(real, '', 'all')), ['maak', 'prata-oppet', 'bibelrosten', 'crava', 'heytid', 'hand']);
+// Every book is some kind of thing, and every button finds at least one.
+for (const b of books) assert.ok(b.look.kinds.length > 0, `${b.name} has no kind`);
+for (const k of KINDS) assert.ok(slugs(filterShelves(real, '', k)).length > 0, `the ${k} button finds nothing`);
+assert.deepEqual(slugs(filterShelves(real, '', 'ai')), ['maak', 'bibelrosten', 'hand']);
+assert.deepEqual(slugs(filterShelves(real, '', 'people')), ['prata-oppet']);
+// Searching reads the name, summary, stack and facts, ignores case and accents,
+// and needs every word to match.
+assert.deepEqual(slugs(filterShelves(real, 'maak', 'all')), ['maak']);
+assert.deepEqual(slugs(filterShelves(real, 'OPPET', 'all')), ['prata-oppet']);
+assert.deepEqual(slugs(filterShelves(real, 'scripture', 'all')), ['bibelrosten']);
+assert.deepEqual(slugs(filterShelves(real, 'supabase ireland', 'all')), ['heytid']);
+assert.deepEqual(slugs(filterShelves(real, '  ', 'all')).length, 6);
+// Search and button together narrow further; nothing matching leaves empty shelves.
+assert.deepEqual(slugs(filterShelves(real, 'insurance', 'ai')), ['hand']);
+assert.deepEqual(slugs(filterShelves(real, 'insurance', 'web')), []);
+assert.deepEqual(visibleShelves(filterShelves(real, 'zzzz', 'all')), []);
+// Filtering keeps each book's place in reading order.
+assert.deepEqual(filterShelves(real, '', 'ai').flatMap((sh) => sh.books.map((b) => b.index)), [0, 2, 5]);
 
 // Reduced motion keeps the hover lift: the site's global rule makes it
 // instant, so the book still comes forward without animating. Nothing may

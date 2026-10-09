@@ -11,6 +11,10 @@ import type { Project, ProjectStatus } from './projects';
 
 export type Pose = 'cover' | 'spine' | 'flat';
 
+/** What kind of thing a project is, for the buttons above the shelves. */
+export type Kind = 'app' | 'ai' | 'web' | 'people';
+export const KINDS: Kind[] = ['app', 'ai', 'web', 'people'];
+
 export type BookLook = {
   pose: Pose;
   /** Cloth or board colour. */
@@ -28,16 +32,18 @@ export type BookLook = {
   height: number;
   /** Degrees. Only covers lean. */
   tilt?: number;
+  /** At least one. Each must be true of the project (AI = it calls a language model). */
+  kinds: Kind[];
 };
 
 /** Suggested colours, not the apps' brands. Swap freely; npm run check guards contrast. */
 export const bookLooks: Record<string, BookLook> = {
-  maak: { pose: 'cover', color: '#2f4a3a', ink: '#efe6d2', face: 'sans', width: 146, height: 210, tilt: -2 },
-  'prata-oppet': { pose: 'spine', color: '#6e2a26', ink: '#f3e7d8', face: 'sans', caps: true, width: 44, height: 214 },
-  bibelrosten: { pose: 'spine', color: '#22324a', ink: '#c9a75e', band: '#c9a75e', face: 'sans', width: 48, height: 228 },
-  crava: { pose: 'spine', color: '#b98a3a', ink: '#2a1f14', face: 'sans', caps: true, width: 40, height: 200 },
-  heytid: { pose: 'flat', color: '#8fa3b8', ink: '#1d2733', face: 'sans', width: 190, height: 34 },
-  hand: { pose: 'flat', color: '#3a3a3c', ink: '#e8e2d6', face: 'mono', width: 176, height: 30 },
+  maak: { pose: 'cover', color: '#2f4a3a', ink: '#efe6d2', face: 'sans', width: 146, height: 210, tilt: -2, kinds: ['app', 'ai'] },
+  'prata-oppet': { pose: 'spine', color: '#6e2a26', ink: '#f3e7d8', face: 'sans', caps: true, width: 44, height: 214, kinds: ['people'] },
+  bibelrosten: { pose: 'spine', color: '#22324a', ink: '#c9a75e', band: '#c9a75e', face: 'sans', width: 48, height: 228, kinds: ['app', 'ai'] },
+  crava: { pose: 'spine', color: '#b98a3a', ink: '#2a1f14', face: 'sans', caps: true, width: 40, height: 200, kinds: ['app'] },
+  heytid: { pose: 'flat', color: '#8fa3b8', ink: '#1d2733', face: 'sans', width: 190, height: 34, kinds: ['app', 'web'] },
+  hand: { pose: 'flat', color: '#3a3a3c', ink: '#e8e2d6', face: 'mono', width: 176, height: 30, kinds: ['app', 'ai'] },
 };
 
 export type ShelfBook = {
@@ -49,6 +55,7 @@ export type ShelfBook = {
   statusLabel: string;
   marker: string;
   summary: string;
+  stack: string[];
   facts: { term: string; value: string; href?: string }[];
   look: BookLook;
 };
@@ -96,9 +103,34 @@ export function buildShelves(projects: Project[], looks: Record<string, BookLook
         statusLabel: p.statusLabel,
         marker: p.marker,
         summary: p.summary,
+        stack: p.stack,
         facts: p.facts,
         look: looks[p.slug],
       })),
+  }));
+}
+
+/** Lower case, accents off: "MÄÄK" and "maak" are the same word to a visitor. */
+function fold(text: string): string {
+  return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
+/**
+ * The shelves with only the books that match: every word of the query must
+ * appear in the book's words, and the book must be of the chosen kind.
+ * Books keep their index, so a book's place in reading order never changes.
+ */
+export function filterShelves(shelves: Shelf[], query: string, kind: Kind | 'all'): Shelf[] {
+  const words = fold(query).split(/\s+/).filter(Boolean);
+  return shelves.map((shelf) => ({
+    ...shelf,
+    books: shelf.books.filter((b) => {
+      if (kind !== 'all' && !b.look.kinds.includes(kind)) return false;
+      const text = fold(
+        [b.name, b.summary, b.statusLabel, ...b.stack, ...b.facts.map((f) => f.value), ...b.look.kinds].join(' '),
+      );
+      return words.every((w) => text.includes(w));
+    }),
   }));
 }
 
