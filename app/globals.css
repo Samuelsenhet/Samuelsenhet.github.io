@@ -517,6 +517,7 @@
 .lib-scrim {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background: color-mix(in srgb, var(--lib-paper-2) 74%, transparent);
   backdrop-filter: blur(14px);
   opacity: 0;
@@ -535,11 +536,11 @@
   gap: 3rem;
   padding: 2rem;
   perspective: 1400px;
+  /* The stage is the open book's scroll container and takes every touch,
+     empty space included, so a swipe always scrolls the book and never
+     chains to the page behind it (which kept scrolling on phones). */
   overflow-y: auto;
-  pointer-events: none;
-}
-.lib-stage > * {
-  pointer-events: auto;
+  overscroll-behavior: contain;
 }
 .lib-detail-cover {
   position: relative;
