@@ -12,7 +12,7 @@ export const profile = {
   email: 'samueel.pierre@hotmail.com' as string | null,
   github: 'https://github.com/Samuelsenhet',
   /** Set to null to take the row off the contact page again. */
-  linkedin: 'https://www.linkedin.com/in/samuel-pierre-4a61bb333' as string | null,
+  linkedin: 'https://www.linkedin.com/in/samuel-p-4a61bb333' as string | null,
   /** Set to null to take the row off the contact page again. */
   instagram: 'https://www.instagram.com/samuelsenhet/' as string | null,
   /**
