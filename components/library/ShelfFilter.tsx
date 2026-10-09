@@ -26,9 +26,9 @@ export function ShelfFilter({ query, onQuery, kind, onKind, shown, total }: Prop
         onChange={(e) => onQuery(e.target.value)}
         placeholder="What are you looking for?"
         autoComplete="off"
-        className="block w-full border-b border-[var(--lib-dim)] bg-transparent py-2 text-center text-lg placeholder:text-[var(--lib-dim)]"
+        className="block w-full border-b border-[var(--lib-dim)] bg-transparent py-2 text-left text-lg placeholder:text-[var(--lib-dim)]"
       />
-      <ul className="mt-6 flex flex-wrap justify-center gap-2">
+      <ul className="mt-6 flex flex-wrap gap-2">
         {(['all', ...KINDS] as const).map((k) => (
           <li key={k}>
             <button

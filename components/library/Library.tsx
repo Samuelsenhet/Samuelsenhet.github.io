@@ -92,17 +92,19 @@ export function Library({ shelves }: { shelves: Shelf[] }) {
       <div className="space-y-12">
         {shown.map((shelf) => (
           <section key={shelf.id} aria-labelledby={`shelf-${shelf.id}`}>
-            <p className="text-center font-mono text-sm text-[var(--lib-dim)]">{shelf.label}</p>
-            <h2 id={`shelf-${shelf.id}`} className="mt-1 text-center text-2xl font-medium tracking-[-0.02em]">
-              {shelf.title}
-            </h2>
-            <p className="mt-1 flex items-baseline justify-center gap-2 font-mono text-sm text-[var(--lib-dim)]">
-              <span
-                aria-hidden
-                className={`inline-block size-1.5 translate-y-[-0.1em] rounded-full ${shelf.id === 'progress' ? 'bg-brass' : 'bg-jade'}`}
-              />
-              {volumes(shelf.books.length)}
-            </p>
+            {/* One line: the shelf's name, then its status dot and count. */}
+            <div className="flex items-baseline gap-3">
+              <h2 id={`shelf-${shelf.id}`} className="text-xl font-medium tracking-[-0.02em]">
+                {shelf.title}
+              </h2>
+              <p className="flex items-baseline gap-2 font-mono text-sm text-[var(--lib-dim)]">
+                <span
+                  aria-hidden
+                  className={`inline-block size-1.5 translate-y-[-0.1em] rounded-full ${shelf.id === 'progress' ? 'bg-brass' : 'bg-jade'}`}
+                />
+                {volumes(shelf.books.length)}
+              </p>
+            </div>
             <ul className="lib-row">
               {shelf.start && <DecorItem kind={shelf.start} />}
               {groupRuns(shelf.books).map((item) =>

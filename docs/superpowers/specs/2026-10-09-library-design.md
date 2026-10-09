@@ -240,3 +240,15 @@ Efter Carollias "What are you looking for?", anpassat till sajten.
   filtrering kan aldrig öppna fel bok.
 - **Utanför:** filtret sparas inte i adressen; ingen AI-sökning.
 - **Typografi:** sökfältet i Familjen Grotesk, knapparna i IBM Plex Mono med versaler.
+
+## Ändring 2026-10-09: en vänsterkant, rubrik på en rad, synlig hyllkant
+
+Ur designgranskningen av hela sajten (fynd 1-3), vald som variant C efter en mockup på riktiga
+skärmbilder.
+
+- **En vänsterkant.** Sökfältet, typknapparna, hyllrubrikerna och böckerna börjar där texten
+  ovanför börjar. Inget på startsidan är längre centrerat.
+- **Hyllrubriken på en rad:** namnet (`Live`, `In progress`) följt av statusprick och antal.
+  Etikettraden ("On the shelf", "On the workbench") är borttagen, och fältet `label` med den.
+- **Hyllkanten syns i ljust läge:** mörkare nedre toner, en tunn underkant (`--lib-ledge-edge`) och
+  en tydligare skugga. Mörkt läge får samma struktur med egna värden.

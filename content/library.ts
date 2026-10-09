@@ -65,7 +65,6 @@ export type ShelfId = 'live' | 'progress';
 
 export type Shelf = {
   id: ShelfId;
-  label: string;
   title: string;
   start?: Decor;
   end?: Decor;
@@ -73,8 +72,8 @@ export type Shelf = {
 };
 
 const SHELVES: Omit<Shelf, 'books'>[] = [
-  { id: 'live', label: 'On the shelf', title: 'Live', start: 'plant', end: 'bookend' },
-  { id: 'progress', label: 'On the workbench', title: 'In progress', start: 'bookend' },
+  { id: 'live', title: 'Live', start: 'plant', end: 'bookend' },
+  { id: 'progress', title: 'In progress', start: 'bookend' },
 ];
 
 /** Shipped software and a running circle can both be experienced today. */
