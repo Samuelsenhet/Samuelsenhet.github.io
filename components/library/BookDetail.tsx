@@ -108,8 +108,14 @@ export function BookDetail({ books, index, sourceRect, onStep, onClosed }: Props
         if (e.key === 'ArrowRight') onStep(1);
       }}
     >
-      <div className="lib-scrim" onClick={close} />
-      <div className="lib-stage">
+      <div className="lib-scrim" />
+      {/* A tap on the stage's empty space, around the book and its text, puts it back. */}
+      <div
+        className="lib-stage"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) close();
+        }}
+      >
         <div ref={cover} className="lib-detail-cover" style={style}>
           <span key={book.slug} className="lib-body lib-cover lib-swap block h-full w-full">
             <Cover book={book} />
