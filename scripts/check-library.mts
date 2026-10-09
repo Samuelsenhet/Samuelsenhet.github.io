@@ -122,12 +122,15 @@ function block(selector: string): Record<string, string> {
   const start = css.indexOf(`${selector} {`);
   assert.ok(start >= 0, `globals.css has no "${selector} {" block`);
   const body = css.slice(start, css.indexOf('}', start));
-  return Object.fromEntries([...body.matchAll(/--([\w-]+):\s*(#[0-9a-fA-F]{6})/g)].map((m) => [m[1], m[2]]));
+  return Object.fromEntries([...body.matchAll(/--([\w-]+):\s*(#[0-9a-fA-F]{6}|var\(--[\w-]+\))/g)].map((m) => [m[1], m[2]]));
 }
-const site = { light: block('@theme'), dark: block('.dark') };
-const room = { light: block('.library'), dark: block('.dark .library') };
+// The shelf borrows the site's own colours by var(); dark mode overrides only what it names.
+const site = { light: block('@theme'), dark: { ...block('@theme'), ...block('.dark') } };
+const roomLight = block('.library');
+const room = { light: roomLight, dark: { ...roomLight, ...block('.dark .library') } };
 for (const theme of ['light', 'dark'] as const) {
-  const t = room[theme];
+  const resolve = (v: string) => (v.startsWith('var(--') ? site[theme][v.slice(6, -1)] : v);
+  const t = Object.fromEntries(Object.entries(room[theme]).map(([k, v]) => [k, resolve(v)]));
   const papers = [t['lib-paper-1'], t['lib-paper-2'], t['lib-paper-3']];
   for (const paper of papers) {
     for (const ink of ['lib-text', 'lib-dim'] as const) {

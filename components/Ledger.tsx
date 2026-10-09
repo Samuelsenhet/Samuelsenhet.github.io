@@ -6,8 +6,8 @@ import type { Project } from '@/content/projects';
  * colour here is data, not decoration. It answers one question, which is
  * whether a person can experience the thing today. Jade means yes, whether
  * that is shipped software or a circle that has been meeting for years.
- * Brass means not yet. Nothing else on the site uses either colour, except
- * the status dots on /library/, which mean the same thing.
+ * Brass means not yet. The bookshelf on the home page uses the same two
+ * colours for its status dots, with the same meaning; nothing else does.
  */
 export function Ledger({ projects }: { projects: Project[] }) {
   return (

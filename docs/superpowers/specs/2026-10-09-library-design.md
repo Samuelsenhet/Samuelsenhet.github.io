@@ -200,3 +200,17 @@ felsätt, testat och inte testat). GitHub Pages publicerar vid merge. Därefter 
   i Safari på iPhone; reserv är att skippa suddningen bakom detaljvyn.
 - **Varmt papper i en sval sajt** kan se ut som ett fel vid övergången mot menyn. Mockupen visade det
   som avsiktligt; kontrolleras på riktigt i 1440 px.
+
+## Ändring 2026-10-09: hyllan på startsidan, i sidans egen färg
+
+Beslutat av Samuel efter att ha sett sidan och två mockups.
+
+- **Hyllan ersätter listan på startsidan.** `/library/`, menypunkten "Library", länken "My
+  library" och raden i sitemap är borttagna, så hyllan finns på ett ställe. `/work` behåller listan.
+- **Samma färg som sidan.** Det varma papperet och kornigheten är borttagna. Hyllan lånar sajtens
+  färger via `var()` (`--color-ground`, `--color-text`, `--color-dim`, `--color-raised`,
+  `--color-line`); bara hyllkanten och skuggorna är dess egna. Ljust och mörkt följer temaväxlaren.
+- **Stycket "I am a builder in Sweden…"** står nu direkt under rubriken, med oförändrad text.
+- **Sidhuvudet** ("A personal archive", "Things I've made", "6 volumes") är borttaget; rubriken
+  ovanför gör det jobbet. Varje hylla behåller sin etikett, rubrik och sitt antal.
+- **Djuplänkar** är `/#maak` i stället för `/library/#maak`.
