@@ -146,4 +146,12 @@ for (const theme of ['light', 'dark'] as const) {
   assert.ok(card >= 4.5, `${theme}: lib-dim on lib-card is ${card.toFixed(2)}:1, needs 4.5`);
 }
 
+// Reduced motion keeps the hover lift: the site's global rule makes it
+// instant, so the book still comes forward without animating. Nothing may
+// pin the book's transform in place.
+assert.ok(
+  !/\.lib-body\s*\{[^}]*transform:[^;}]*!important/.test(css),
+  'globals.css pins .lib-body transform with !important, so a book never comes forward under reduced motion',
+);
+
 console.log('check-library: all passed');

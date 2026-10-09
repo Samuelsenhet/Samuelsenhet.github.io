@@ -145,8 +145,8 @@ Sajtens princip är ett enda koreograferat ögonblick. Här är det när boken d
 
 Öppen bok speglas i adressen (`/library/#maak`); en sådan länk öppnar boken vid laddning.
 
-**Reducerad rörelse:** ingen förflyttning eller vridning. Hovring = skugga; öppna/stänga = övertoning
-150 ms; laddningsanimationen av.
+**Reducerad rörelse:** ingen flygtur och ingen animation. Hovring lyfter boken som vanligt, men
+omedelbart (se ändringen nedan); öppna/stänga = omedelbart byte; laddningsanimationen av.
 
 ## 4. Mobil, tillgänglighet, mörkt läge
 
@@ -214,3 +214,11 @@ Beslutat av Samuel efter att ha sett sidan och två mockups.
 - **Sidhuvudet** ("A personal archive", "Things I've made", "6 volumes") är borttaget; rubriken
   ovanför gör det jobbet. Varje hylla behåller sin etikett, rubrik och sitt antal.
 - **Djuplänkar** är `/#maak` i stället för `/library/#maak`.
+
+## Ändring 2026-10-09: lyftet vid hovring finns även med reducerad rörelse
+
+Med Reducera rörelse påslaget stod böckerna stilla vid hovring, så hyllan såg död ut. Reducera
+rörelse gäller animationer som glider, zoomar och flyger; ett omedelbart lyft är ingen sådan.
+Sajtens globala regel gör redan alla övergångar omedelbara för de besökarna, så regeln som låste
+bokens läge är borttagen. Flygturen när en bok öppnas är fortfarande avstängd för dem.
+`npm run check` hindrar att låsningen kommer tillbaka.

@@ -400,11 +400,6 @@
   outline: 2px solid var(--lib-text);
   outline-offset: 4px;
 }
-@media (prefers-reduced-motion: reduce) {
-  .lib-book .lib-body {
-    transform: var(--rest, none) !important;
-  }
-}
 
 /* The card that floats up on hover: a preview of what opening shows. */
 .lib-card {
