@@ -53,12 +53,7 @@ export default function Home() {
         </ul>
       </nav>
 
-      <section aria-labelledby="code" className="pb-8">
-        <h2 id="code" className="text-sm text-dim mb-4">
-          Public code
-        </h2>
-        <RepoList />
-      </section>
+      <RepoList />
     </div>
   );
 }
