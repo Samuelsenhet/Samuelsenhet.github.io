@@ -12,3 +12,6 @@ next-env.d.ts
 # .gitmodules, och repot klonar till två tomma kataloger.
 cv/
 linkedin/
+
+# Personal 3D models (your likeness): kept out of git.
+scratch/models/

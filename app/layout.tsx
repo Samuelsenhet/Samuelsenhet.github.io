@@ -1,13 +1,30 @@
 import type { Metadata, Viewport } from 'next';
-import { Familjen_Grotesk, IBM_Plex_Mono } from 'next/font/google';
+import { Cormorant_Upright, Familjen_Grotesk, IBM_Plex_Mono, Mansalva } from 'next/font/google';
 import { profile } from '@/content/profile';
 import { Nav } from '@/components/Nav';
+import { Chrome } from '@/components/Chrome';
+import { Reveal } from '@/components/Reveal';
 import { Footer } from '@/components/Footer';
 import './globals.css';
 
 const familjen = Familjen_Grotesk({
   subsets: ['latin'],
   variable: '--font-familjen',
+  display: 'swap',
+});
+
+/* sen-3d-resume's two display faces: Cormorant Upright for headings, Mansalva for the one hand-written title. */
+const cormorant = Cormorant_Upright({
+  subsets: ['latin'],
+  weight: ['500', '600'],
+  variable: '--font-cormorant',
+  display: 'swap',
+});
+
+const mansalva = Mansalva({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-mansalva',
   display: 'swap',
 });
 
@@ -42,25 +59,27 @@ export const metadata: Metadata = {
   alternates: { canonical: './' },
 };
 
+/* One theme: the site is dark only since the 3D home page (D-002). */
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f1f4f7' },
-    { media: '(prefers-color-scheme: dark)', color: '#0f1620' },
-  ],
+  themeColor: '#0f1620',
 };
 
 /**
- * Applies the stored theme before first paint so the page never flashes the
- * wrong one. Reads can throw in a locked-down browser, so it fails silently
- * and falls back to dark.
+ * Arms the scroll entrance before first paint, so nothing visibly appears and
+ * then hides. If the script that reveals things never runs, the class comes
+ * off again after four seconds and the page stays readable.
  */
-const themeScript = `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.classList.toggle('dark',(t||d)!=='light')}catch(e){document.documentElement.classList.add('dark')}})()`;
+const revealScript = `(function(){if(!('IntersectionObserver' in window))return;var d=document.documentElement;d.classList.add('reveal');setTimeout(function(){if(!window.__reveal)d.classList.remove('reveal')},4000)})()`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${familjen.variable} ${plexMono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`dark ${familjen.variable} ${plexMono.variable} ${cormorant.variable} ${mansalva.variable}`}
+      suppressHydrationWarning
+    >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: revealScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -83,11 +102,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
+        <div className="grain" aria-hidden />
+        <Chrome />
         <Nav />
-        <main id="main" className="flex-1">
+        <main id="main" className="relative z-10 flex-1">
           {children}
         </main>
         <Footer />
+        <Reveal />
       </body>
     </html>
   );

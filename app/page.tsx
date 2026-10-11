@@ -2,38 +2,46 @@ import Link from 'next/link';
 import { projects } from '@/content/projects';
 import { profile } from '@/content/profile';
 import { bookLooks, buildShelves } from '@/content/library';
-import { Library } from '@/components/library/Library';
+import { HomeScene } from '@/components/home/HomeScene';
+import { Resume } from '@/components/home/Resume';
 import { RepoList } from '@/components/RepoList';
 
+/**
+ * The home page as a 3D résumé (D-002), after dayinji/sen-3d-resume: the
+ * figure behind, an About over it, then the timeline the camera follows.
+ * Everything here is plain HTML; the figure arrives after it, if it can.
+ */
 export default function Home() {
   return (
-    <div className="mx-auto max-w-3xl px-5 sm:px-8">
-      <section className="pt-20 pb-16 sm:pt-24">
-        <h1 className="text-display font-bold [text-wrap:balance]">
-          Hey, I&rsquo;m Samuel. I build{' '}
-          <Link href="/work/" className="underline decoration-[0.08em] underline-offset-[0.12em]">
-            apps
-          </Link>{' '}
-          on my own, and I run a room where men talk.
-        </h1>
-        <p className="mt-8 max-w-[62ch] text-mid">
-          I am a builder in {profile.location} who takes a product the whole way: the interface, the
-          database, the release, the store listing, and the words. What I am working on stands on the
-          shelves below. The oldest thing there is not software at all, but a room where men sit down
-          and talk.
-        </p>
+    <>
+      <HomeScene />
+
+      <section className="hero">
+        <div className="about" id="about">
+          <div className="about-intro">
+            <h1 className="about-title" id="about-title">
+              About {profile.name}
+            </h1>
+            <p className="about-body" id="about-body">
+              I&rsquo;m {profile.name}, a builder in {profile.location} who takes a product the whole way: the
+              interface, the database, the release, the store listing, and the words. I build apps on my own, and I
+              run a room where men talk.
+            </p>
+          </div>
+        </div>
+        <div className="scroll-cue" id="scroll-cue" aria-hidden>
+          <span className="scroll-cue-label">Scroll</span>
+          <span className="scroll-cue-track">
+            <span className="scroll-cue-dot" />
+          </span>
+        </div>
       </section>
 
-      {/* The state of the work, as books: live on the top shelf, in progress below. */}
-      <div className="pb-16">
-        <Library shelves={buildShelves(projects, bookLooks)} />
-      </div>
+      <Resume shelves={buildShelves(projects, bookLooks)} />
 
-      {/* With no nav on this page, these are the site's navigation. Set large
-          enough to be unmissable, underlined so they cannot be mistaken for
-          headings, and no arrows: that is someone else's ornament. */}
-      <nav aria-label="Sections" className="pb-16">
-        <ul className="space-y-5 text-xl sm:text-2xl">
+      {/* With no nav on this page, these are the site's navigation. */}
+      <nav aria-label="Sections" className="home-links">
+        <ul>
           {[
             { href: '/work/', label: 'My work' },
             { href: '/writing/', label: 'My writing' },
@@ -41,10 +49,7 @@ export default function Home() {
             { href: '/contact/', label: 'Contact me' },
           ].map((l) => (
             <li key={l.href}>
-              <Link
-                href={l.href}
-                className="tap font-medium underline decoration-dim decoration-[0.06em] underline-offset-[0.14em] transition-colors hover:decoration-current"
-              >
+              <Link href={l.href} className="tap rv">
                 {l.label}
               </Link>
             </li>
@@ -52,7 +57,9 @@ export default function Home() {
         </ul>
       </nav>
 
-      <RepoList />
-    </div>
+      <div className="home-code">
+        <RepoList />
+      </div>
+    </>
   );
 }

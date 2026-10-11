@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { posts } from '@/content/writing';
+import { PageHead } from '@/components/PageHead';
 
 export const metadata: Metadata = {
   title: 'Writing',
@@ -9,34 +10,34 @@ export const metadata: Metadata = {
 
 const month = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' });
 
+/** sen-3d-resume's hairline list (ui/Works.tsx WorkLine): the title left, the month right, an indent on hover. */
 export default function Writing() {
   return (
-    <div className="mx-auto max-w-3xl px-5 sm:px-8">
-      <section className="pt-20 pb-12">
-        <h1 className="text-title font-medium">Writing</h1>
-        <p className="mt-4 max-w-[58ch] text-mid">
-          Notes on how the work is actually built. Fewer than I would like, and only about things I
-          have measured.
-        </p>
-      </section>
+    <section className="page">
+      <PageHead kicker="Notes" title="Writing">
+        <p>Notes on how the work is actually built. Fewer than I would like, and only about things I have measured.</p>
+      </PageHead>
 
-      <ul className="border-t border-line">
-        {posts.map((p) => (
-          <li key={p.slug} className="border-b border-line">
-            <Link href={`/writing/${p.slug}/`} className="group block py-5">
-              <span className="flex flex-wrap items-baseline gap-x-3">
-                <span className="text-lg font-medium tracking-tight group-hover:text-mid transition-colors">
-                  {p.title}
+      {posts.length > 0 ? (
+        <ul className="list rv">
+          {posts.map((p) => (
+            <li key={p.slug}>
+              <Link href={`/writing/${p.slug}/`}>
+                <span>
+                  <span className="list-title">{p.title}</span>
+                  <span className="list-sub">{p.standfirst}</span>
                 </span>
-                <span className="tnum font-mono text-xs text-dim">
-                  {month.format(new Date(p.date))}
+                <span className="list-when">
+                  <span className="list-month tnum">{month.format(new Date(p.date))}</span>
+                  {p.project && <span className="list-tag">{p.project}</span>}
                 </span>
-              </span>
-              <span className="mt-1 block max-w-[62ch] text-sm text-mid">{p.standfirst}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="list-empty rv">Nothing here yet.</p>
+      )}
+    </section>
   );
 }
