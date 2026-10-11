@@ -22,6 +22,7 @@ each larger choice is in [DECISIONS.md](DECISIONS.md) (D-001 to D-003).
 | 3D in the browser | [three.js](https://threejs.org) 0.169 (`GLTFLoader`, `RoomEnvironment`) and [postprocessing](https://github.com/pmndrs/postprocessing) 6.39.1 (depth of field, bloom, SMAA) |
 | Writing pages | `marked`, for the Markdown in `content/writing/` |
 | Fonts | Google Fonts through `next/font`: [Familjen Grotesk](https://fonts.google.com/specimen/Familjen+Grotesk), [Cormorant Upright](https://fonts.google.com/specimen/Cormorant+Upright), [Mansalva](https://fonts.google.com/specimen/Mansalva), [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono) |
+| The stylized picture | [ChatGPT](https://chatgpt.com) image generation, with `/claymation` on the photo |
 | The figure | [Hyper3D Rodin](https://hyper3d.ai) through its CLI ([DeemosTech/hyper3d-cli](https://github.com/DeemosTech/hyper3d-cli)), then [Blender](https://www.blender.org) 4.5 driven from Claude Code with [mcp-for-blender](https://github.com/ahujasid/mcp-for-blender) |
 | Checking on devices | [Playwright](https://playwright.dev) with headless Chromium, screenshots at phone, iPad and desktop sizes |
 | Hosting | GitHub Pages, deployed by GitHub Actions (`.github/workflows/pages.yml`) |
@@ -93,8 +94,8 @@ figure, so it was replaced with a Hyper3D model:
    realistic figure whose face smeared up close. Adding a `--prompt` that asked for a
    stylized look changed nothing: Rodin follows the image, not the text.
 2. **A stylized picture gives a stylized model.** The photo was first turned into a
-   stylized, animated-film-style picture with an AI image tool, and that picture was the
-   input:
+   stylized, claymation-style picture in [ChatGPT](https://chatgpt.com): the photo was
+   attached and the message was just `/claymation`. That picture was the input:
    ```
    hyper3d generate --image stylized.png --tier Gen-2.5-High --mesh-mode Quad --texture-delight
    hyper3d poll <generation-id> --timeout 580
