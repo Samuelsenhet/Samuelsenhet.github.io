@@ -29,7 +29,10 @@ export function Chrome() {
     let raf = 0;
     const fade = () => {
       raf = 0;
-      if (ref.current) ref.current.style.opacity = String(1 - Math.min(1, window.scrollY / 280));
+      const o = String(1 - Math.min(1, window.scrollY / 280));
+      if (ref.current) ref.current.style.opacity = o;
+      // The nav's backing fades in as the frame fades out (globals.css .credit::before).
+      document.documentElement.style.setProperty('--chrome-o', o);
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(fade);
