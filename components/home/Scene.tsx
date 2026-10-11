@@ -33,15 +33,18 @@ const EYE_CROSS = 45;
 const EYE_CROSS_RADIUS = 0.25;
 // Camera (Scene.tsx cam.*, App.tsx <Canvas>)
 const FOV = 39;
-const MAX_DPR = 1.5;
+const MAX_DPR = 2; // sen uses 1.5; on a 3x phone that halves the figure's resolution and stair-steps its outline
 const CAM_DAMPING = 0.1;
 const CAM_DWELL = 0.35;
 const PARALLAX_DEG = 4;
 const PARALLAX_EASE = 0.1;
 const MOBILE_PULLBACK = 1.2;
 const MOBILE_SHIFT = -0.12; // Scene.tsx mobileTimelineShift, as a share of the view
+const EXPOSURE = 1.15; // a dark figure on the dark ground needs a little more light than sen's pale green
 const NODE_LINE = 0.3; // a row is "reached" when its top is 30% down the screen
 const FRAMES_PER_NODE = 50; // focusPoints.ts; only used to time the depth-of-field blend
+const START_VIEW = 0.62; // the opening shows this share of the figure's height
+const START_VIEW_PHONE = 0.46; // closer on a phone: the face, as sen frames it, not the waist
 // Stops (scratch/home-3d.html)
 const STOP_VIEW = 0.4; // a stop shows this share of the figure's height
 const STOP_SHIFT = 0.32; // the stop sits left of centre, clear of the text on the right
@@ -50,6 +53,7 @@ const DOF_START_BOKEH = 7.4;
 const DOF_START_RANGE = 2;
 const DOF_STOP_BOKEH = 11;
 const DOF_STOP_RANGE = 0.15;
+const DOF_HEIGHT = 720; // sen's 480 px blur buffer stair-steps the outline at today's screen sizes
 const BLOOM_INTENSITY = 0.6;
 const BLOOM_THRESHOLD = 0.82;
 // Lights (Scene.tsx Lights; RoomEnvironment stands in for env.hdr, whose licence is unclear)
@@ -57,6 +61,8 @@ const ENV_INTENSITY = 0.85;
 const HEMI_INTENSITY = 1.15;
 const KEY_INTENSITY = 2.35;
 const FILL_INTENSITY = 2.25;
+// Not in sen: a warm light from behind that draws the outline, which sen's pale backdrop does for him.
+const RIM_INTENSITY = 2.4;
 // The scene draws only while something can still be moving (~2 s at 60 fps after the last input).
 const WAKE_FRAMES = 120;
 
@@ -83,6 +89,7 @@ export function Scene() {
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, MAX_DPR));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = EXPOSURE;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
 
@@ -93,12 +100,18 @@ export function Scene() {
     scene.environment = envMap;
     scene.environmentIntensity = ENV_INTENSITY;
 
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const coarse = window.matchMedia('(pointer: coarse)');
+    const isPhone = () => window.innerWidth <= 640 || coarse.matches;
+
     const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 500);
     const composer = new EffectComposer(renderer, { multisampling: 0, stencilBuffer: false, depthBuffer: true });
     composer.addPass(new RenderPass(scene, camera));
-    const dof = new DepthOfFieldEffect(camera, { worldFocusRange: DOF_STOP_RANGE, bokehScale: DOF_START_BOKEH, height: 480 });
+    // Depth of field only where there is room for it: on a phone it costs the most and blurs the most.
+    const dof = new DepthOfFieldEffect(camera, { worldFocusRange: DOF_STOP_RANGE, bokehScale: DOF_START_BOKEH, height: DOF_HEIGHT });
     dof.target = new THREE.Vector3();
-    composer.addPass(new EffectPass(camera, dof));
+    const dofPass = new EffectPass(camera, dof);
+    composer.addPass(dofPass);
     composer.addPass(new EffectPass(camera, new BloomEffect({ mipmapBlur: true, intensity: BLOOM_INTENSITY, luminanceThreshold: BLOOM_THRESHOLD, luminanceSmoothing: 0.3 })));
     composer.addPass(new EffectPass(camera, new SMAAEffect()));
 
@@ -108,11 +121,10 @@ export function Scene() {
     key.shadow.mapSize.set(2048, 2048);
     const fill = new THREE.DirectionalLight('#9fc6ff', FILL_INTENSITY);
     fill.position.set(-5, 4, -4);
-    scene.add(new THREE.HemisphereLight('#ffffff', '#404040', HEMI_INTENSITY), key, fill);
+    const rim = new THREE.DirectionalLight('#ffd9b3', RIM_INTENSITY); // --color-accent
+    rim.position.set(4, 3, -6);
+    scene.add(new THREE.HemisphereLight('#ffffff', '#404040', HEMI_INTENSITY), key, fill, rim);
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const coarse = window.matchMedia('(pointer: coarse)');
-    const isPhone = () => window.innerWidth <= 640 || coarse.matches;
 
     let model: THREE.Object3D | null = null;
     let eyes: Eye[] = [];
@@ -127,9 +139,9 @@ export function Scene() {
       const aspect = window.innerWidth / window.innerHeight;
       const pull = isPhone() ? MOBILE_PULLBACK : 1;
       const size = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3());
-      const frameH = Math.max(size.y * 0.62, (size.x * 0.75) / aspect);
+      const frameH = isPhone() ? size.y * START_VIEW_PHONE : Math.max(size.y * START_VIEW, (size.x * 0.75) / aspect);
       const look0 = focusStart.clone().add(new THREE.Vector3(0, -frameH * 0.2, 0));
-      const d0 = (frameH / 2 / tan) * pull;
+      const d0 = frameH / 2 / tan;
       const start = lookPose(look0.clone().add(new THREE.Vector3(0, frameH * 0.05, d0)), look0, focusStart.clone());
       const stops = anchors.map((a) => {
         if (!a) return start;
@@ -210,6 +222,7 @@ export function Scene() {
       poke();
     };
     const onResize = () => {
+      dofPass.enabled = !isPhone();
       renderer.setSize(window.innerWidth, window.innerHeight, false);
       composer.setSize(window.innerWidth, window.innerHeight);
       camera.aspect = window.innerWidth / window.innerHeight;
