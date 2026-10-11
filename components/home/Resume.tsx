@@ -16,6 +16,12 @@ const SINCE: Record<string, string> = {
   maak: '2026 – Now',
 };
 
+/** What each live thing is, for its open button; anything missing here is a book. */
+const OPEN: Record<string, string> = {
+  'prata-oppet': 'Open the circle',
+  maak: 'Open the app',
+};
+
 const dot = (book: ShelfBook) => (book.status === 'building' ? 'bg-brass' : 'bg-jade');
 
 /**
@@ -97,7 +103,7 @@ export function Resume({ shelves }: { shelves: Shelf[] }) {
               </p>
               <p className="tl-summary rv">{book.summary}</p>
               <button type="button" className="tl-open rv" onClick={() => show(book.slug)}>
-                Open the book
+                {OPEN[book.slug] ?? 'Open the book'}
               </button>
             </div>
           </div>

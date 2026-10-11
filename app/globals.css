@@ -582,7 +582,8 @@
 /* ---- Navigation as sen's credit line (Nav.tsx), and the footer ---- */
 .credit {
   position: fixed;
-  top: calc(clamp(16px, 2.4vh, 30px) + 12px);
+  top: 0;
+  padding: calc(clamp(16px, 2.4vh, 30px) + 12px) 0 28px;
   left: 0;
   right: 0;
   z-index: 30;
@@ -592,6 +593,16 @@
   gap: 12px;
   pointer-events: none;
   animation: fade-down 1.9s ease both;
+}
+/* Text scrolling under the nav is hidden by a backing that fades in as the frame
+   fades out (Chrome.tsx --chrome-o), so at the top the frame still shows whole. */
+.credit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(var(--color-ground) calc(100% - 24px), transparent);
+  opacity: calc(1 - var(--chrome-o, 1));
 }
 .credit a {
   pointer-events: auto;
@@ -610,6 +621,10 @@
   display: flex;
   gap: 18px;
 }
+/* Without this each item keeps the body's line box and sits lower than the name. */
+.credit-links li {
+  display: flex;
+}
 .credit-links a {
   font-size: 10px;
   letter-spacing: 0.38em;
@@ -620,6 +635,10 @@
 .credit-links a:hover,
 .credit-links a[aria-current='page'] {
   color: var(--color-text);
+}
+@media (max-width: 640px) {
+  /* A line below the frame's Portfolio label, which shares the top edge on a phone. */
+  .credit { padding-top: calc(clamp(16px, 2.4vh, 30px) + 40px); }
 }
 @media (max-width: 520px) {
   .credit { gap: 8px; }

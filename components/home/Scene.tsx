@@ -44,7 +44,8 @@ const EXPOSURE = 1.15; // a dark figure on the dark ground needs a little more l
 const NODE_LINE = 0.3; // a row is "reached" when its top is 30% down the screen
 const FRAMES_PER_NODE = 50; // focusPoints.ts; only used to time the depth-of-field blend
 const START_VIEW = 0.62; // the opening shows this share of the figure's height
-const START_VIEW_PHONE = 0.46; // closer on a phone: the face, as sen frames it, not the waist
+const START_VIEW_PHONE = 0.7; // the stylized head is large: sen's 0.46 cut the hair off and filled the width
+const START_EYES_PHONE = 0.62; // on a phone or iPad the eyes sit this far up the screen, so the hair clears the header
 // Stops (scratch/home-3d.html)
 const STOP_VIEW = 0.4; // a stop shows this share of the figure's height
 const STOP_SHIFT = 0.32; // the stop sits left of centre, clear of the text on the right
@@ -140,7 +141,8 @@ export function Scene() {
       const pull = isPhone() ? MOBILE_PULLBACK : 1;
       const size = new THREE.Box3().setFromObject(model).getSize(new THREE.Vector3());
       const frameH = isPhone() ? size.y * START_VIEW_PHONE : Math.max(size.y * START_VIEW, (size.x * 0.75) / aspect);
-      const look0 = focusStart.clone().add(new THREE.Vector3(0, -frameH * 0.2, 0));
+      const eyeLine = isPhone() ? START_EYES_PHONE - 0.5 : 0.2;
+      const look0 = focusStart.clone().add(new THREE.Vector3(0, -frameH * eyeLine, 0));
       const d0 = frameH / 2 / tan;
       const start = lookPose(look0.clone().add(new THREE.Vector3(0, frameH * 0.05, d0)), look0, focusStart.clone());
       const stops = anchors.map((a) => {
