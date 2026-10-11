@@ -7,6 +7,9 @@ serve it from the root of the domain; see Deploying.
 It is a small static site: who I am, what I have built, and what state each of
 those things is actually in.
 
+How the site was made, step by step, with the tools and the inspiration behind it:
+[docs/HOW-IT-WAS-MADE.md](docs/HOW-IT-WAS-MADE.md).
+
 ## How it works
 
 Next.js App Router with `output: 'export'`, so `npm run build` produces a
