@@ -8,8 +8,8 @@
  * Kept from sen: eyes that follow the pointer, the camera orbiting the focus
  * a few degrees with the pointer, scroll moving the camera from stop to stop
  * with a dwell at each, depth of field then bloom then SMAA, his lights.
- * The model is the owner's own (public/models/me.glb, made in intro3d); its
- * eyes are meshes named eye-*, and focus-1… are the stops. The camera path is
+ * The model is the owner's own (public/models/me.glb, made in Hyper3D, D-003);
+ * its eyes are meshes named eye-*, and focus-1… are the stops. The camera path is
  * computed from the front: the file's own CameraAction starts behind the head.
  *
  * Values were tuned by eye in scratch/home-3d.html; each says where it came from.
