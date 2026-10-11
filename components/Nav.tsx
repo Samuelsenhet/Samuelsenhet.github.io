@@ -12,44 +12,31 @@ const links = [
 ];
 
 /**
- * Deliberately quiet: small, dim, no rule under it, and nothing heavier than
- * anything else, so the headline below is the first thing read.
+ * sen-3d-resume's credit line (styles.css .credit, MIT, Copyright (c) 2026
+ * Sen Zheng), used as the navigation: centred at the top, small letterspaced
+ * capitals, quiet until current. Each link keeps a 44px tap through `.tap`.
  *
- * The name is never lifted, even on the home page where it is the current
- * link. It would be the brightest thing in the row sitting directly above a
- * headline that opens with the same name, and two Samuels is one too many.
- * aria-current still marks it, so the state is announced without being drawn.
- * Section links do lift when current: those pages have a smaller title, so
- * there is nothing for the nav to compete with.
+ * The home page carries these links in its body instead, so there is no nav
+ * there: it would sit on top of the 3D figure and the About.
  */
 export function Nav() {
   const pathname = usePathname() ?? '/';
-
-  // The home page carries these links in its body instead, so a nav here
-  // would be the same three links twice and would pull the eye off the
-  // headline. Every other page needs a way to get around.
   if (pathname === '/') return null;
 
   return (
-    <header>
-      <nav
-        aria-label="Main"
-        className="mx-auto flex max-w-3xl flex-wrap items-baseline gap-x-4 gap-y-2 px-5 py-6 text-sm sm:gap-x-5 sm:px-8"
-      >
-        <Link href="/" className="tap text-dim transition-colors hover:text-text">
-          {profile.name}
-        </Link>
-        <ul className="flex flex-1 flex-wrap items-baseline gap-x-4 gap-y-2 sm:gap-x-5">
+    <header className="credit">
+      <Link href="/" className="credit-home tap">
+        {profile.name}
+      </Link>
+      <span className="credit-sep" aria-hidden />
+      <nav aria-label="Main">
+        <ul className="credit-links">
           {links.map((l) => {
             // /work/ stays current while reading a project under it.
             const active = pathname === l.href || pathname.startsWith(l.href);
             return (
               <li key={l.href}>
-                <Link
-                  href={l.href}
-                  className={`tap transition-colors ${active ? 'text-text' : 'text-dim hover:text-text'}`}
-                  aria-current={active ? 'page' : undefined}
-                >
+                <Link href={l.href} className="tap" aria-current={active ? 'page' : undefined}>
                   {l.label}
                 </Link>
               </li>
