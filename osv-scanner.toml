@@ -1,0 +1,21 @@
+# Known vulnerabilities left on purpose (laget audits BER-02).
+# Every entry has a reason and a date when it is checked again.
+
+# Next.js server features. The site is built with `output: 'export'` and served as static
+# files from GitHub Pages, so there is no Next.js server, Image Optimization API, `use cache`
+# or Server Action in production. Fixed in 16.4.1, which was ten days old on 2026-10-24;
+# move to 16.4.x once it has been out for two weeks.
+[[IgnoredVulns]]
+id = "GHSA-2464-fhr4-w9xw"
+ignoreUntil = 2026-11-07T00:00:00Z
+reason = "Image Optimization API: no Next.js server in a static export"
+
+[[IgnoredVulns]]
+id = "GHSA-673q-mjm6-r5xr"
+ignoreUntil = 2026-11-07T00:00:00Z
+reason = "use cache functions: no Next.js server in a static export"
+
+[[IgnoredVulns]]
+id = "GHSA-p3m5-59mp-jv5r"
+ignoreUntil = 2026-11-07T00:00:00Z
+reason = "Server Actions: no Next.js server in a static export"
