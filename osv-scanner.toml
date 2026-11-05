@@ -1,2 +1,14 @@
 # Known vulnerabilities left on purpose (laget audits BER-02).
 # Every entry has a reason and a date when it is checked again.
+
+# minimatch 10.2.6, lint only. It comes in through eslint-config-next, typescript-eslint and
+# @typescript-eslint/typescript-estree, so it runs when we lint and is not part of the static
+# export. typescript-estree calls minimatch in one place, for `allowDefaultProject` patterns,
+# and neither eslint.config.mjs nor eslint-config-next sets any. That call passes no
+# `optimizationLevel`, so the default of 1 applies, and the code in the advisory runs only at 2
+# or higher. The fix is only in minimatch 11, and typescript-estree still asks for ^10.2.2, also
+# in 8.72.1, the newest (typescript-eslint issue #13125). Check again when it moves to 11.
+[[IgnoredVulns]]
+id = "GHSA-g3hv-75wg-m249"
+ignoreUntil = 2026-12-05T00:00:00Z
+reason = "Glob pattern amplification: lint only, and typescript-estree never sets optimizationLevel 2"
